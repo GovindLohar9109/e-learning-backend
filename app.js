@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors"
-
+import SeedInitial from "./prisma/seed.js";
 import { PrismaClient } from "@prisma/client";
 
 
