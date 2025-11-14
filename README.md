@@ -57,6 +57,9 @@ For Prisma:
 ```bash
 npx prisma migrate deploy
 
+## For seed file
+
+npm run seed;
 
 
 
