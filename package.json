@@ -1,12 +1,13 @@
 {
   "name": "E-Learning-Management-System",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is E-Learning Project which will provide courses to users.",
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon app",
-    "start": "node app.js"
+    "dev": "nodemon src/app",
+    "start": "node src/.js",
+     "seed": "node src/seed.js"
   },
   "author": "",
   "license": "ISC",
