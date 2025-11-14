@@ -1,13 +1,15 @@
 {
-  "name": "server",
+  "name": "E-Learning-Management-System",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This is E-Learning Project which will provide courses to users.",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app",
-    "start": "node app.js",
-    "seed": "node prisma/seed.js"
+
+    "test": "jest",
+    "dev": "nodemon src/app",
+    "start": "node src/.js",
+     "seed": "node src/prisma/seed/seed.js"
+
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +18,9 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jest": "^30.2.0"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.11"
   },
   "devDependencies": {
