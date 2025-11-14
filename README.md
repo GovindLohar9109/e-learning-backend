@@ -1,35 +1,74 @@
-# ELMS — Backend Service
-
-This repository contains the **backend API** for the E-Learning Management System (ELMS).  
-It provides secure authentication, role-based access control, course management, user management, and real-time features.
+# Node.js Backend Project
 
 ---
 
-##  Overview  
-The backend is a RESTful Node.js/Express service that supports two main actor roles: **User** and **Admin**.  
-- **Users** can browse courses, view free documentation, enroll in courses, provide feedback, and manage their profile.  
-- **Admins** can create, edit, delete courses, view system statistics, and manage users.
+## Table of Contents
+
+
+1. [Running the Project](#running-the-project)
+2. [Database Migrations](#database-migrations)
+3. [Testing](#testing)
+
+
+## Project Setup
+
+#### Clone the repository:
+
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+
+#### Install dependencies:
+
+npm install
+---
+
+## Running the Project
+
+* Start the development server:
+
+```bash
+npm run dev
+```
+
+* Start the production server:
+
+```bash
+npm start
+```
+
+* The server will run on `http://localhost:8000` by default.
 
 ---
 
-##  Functional Use Cases (brief)  
-- User registration & login  
-- Role-based authentication (User / Admin)  
-- Browse all courses with title, description, documentation link  
-- Free documentation access for users  
-- Add courses to “My Courses” for users  
-- Search courses by name  
-- Profile management and feedback submission  
-- Admin dashboard: total courses, total users, course CRUD operations  
+## Database Migrations
+
+### 1. Create a new migration
+
+For Prisma:
+
+```bash
+npx prisma migrate dev --name <migration_name>
+```
+
+### 2. Execute migrations
+
+For Prisma:
+
+```bash
+npx prisma migrate deploy
+
+## For seed file
+
+npm run seed;
+
+
+
+## Testing
+
+* Run unit tests:
+
+```bash
+npm test
+```
 
 ---
-
-##  Tech Stack  
-- **Backend:** Node.js, Express.js  
-- **Database:** postgresql  
-- **Authentication:** JWT  
-- **Postman**
-
----
-
-
