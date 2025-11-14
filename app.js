@@ -2,10 +2,10 @@ import express from "express";
 import cors from "cors"
 import SeedInitial from "./prisma/seed.js";
 import { PrismaClient } from "@prisma/client";
-
+import UserService from "./services/userService.js";
+import router from "./routes/index.js";
 
 const prisma = new PrismaClient(); // prisma client object used to intract with DB
-
 
 
 
@@ -15,6 +15,8 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
+// routes
+app.use("/", router);
 
 app.get("/", async (req, res) => {
     const resp = await prisma.courses.findMany();
