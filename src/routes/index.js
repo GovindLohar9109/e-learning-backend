@@ -1,5 +1,5 @@
 import express from "express";
-import userReducer from "./userRoute.js"
+import userReducer from "./user.route.js"
 const router=express.Router();
 
 

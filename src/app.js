@@ -1,14 +1,10 @@
 import express from "express";
 import cors from "cors"
-import SeedInitial from "./prisma/seed.js";
+import SeedInitial from "./prisma/seed/seed.js";
 import { PrismaClient } from "@prisma/client";
-import UserService from "./services/userService.js";
 import router from "./routes/index.js";
 
 const prisma = new PrismaClient(); // prisma client object used to intract with DB
-
-
-
 const app = express();
 const PORT = process.env.PORT || 8000;
 

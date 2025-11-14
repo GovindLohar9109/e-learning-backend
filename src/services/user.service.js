@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { generateHashPassword, comparePassword } from "../utils/hashPassAction.js";
 import { generateAuthToken } from "../utils/authTokenAction.js";
+
 const prisma = new PrismaClient();
 
 export default class UserService {
@@ -39,7 +40,7 @@ export default class UserService {
                 return { status: true, msg: "User Registered...", token, user };
             }
             else {
-                return { status: true, msg: "User Already Registered..." };
+                return { status: false, msg: "User Already Registered..." };
             }
         }
         catch (err) {
@@ -83,12 +84,12 @@ export default class UserService {
                     return { status: true, msg: "User LoggedIn...", token, user: user };
                 }
                 else {
-                    return { status: true, msg: "Incorrect User or Password" };
+                    return { status: false, msg: "Incorrect User or Password" };
                 }
 
             }
             else {
-                return { status: true, msg: "Incorrect User or Password" };
+                return { status: false, msg: "Incorrect User or Password" };
             }
         }
         catch (err) {
