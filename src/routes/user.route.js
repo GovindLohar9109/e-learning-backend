@@ -4,5 +4,6 @@ const router = express.Router();
 router.post("/login", UserController.userLogin);
 router.post("/register", UserController.userRegister);
 router.get("/users/count", UserController.getUsersCount);
-router.put("/users/:user_id", UserController.userUpdate);
+router.get("/users/:user_id", UserController.getUser);
+
 export default router;

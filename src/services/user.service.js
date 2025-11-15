@@ -21,7 +21,6 @@ export default class UserService {
                     data: data
                 })
 
-
                 var role = await prisma.roles.findFirst({
                     where: { name: "User" }
                 })
@@ -98,22 +97,7 @@ export default class UserService {
             return
         }
     }
-    static async userUpdate(data, user_id) {
-       
-        try {
-            await prisma.users.update({
-                where: { id: Number(user_id) },
-                data: {
-                    ...data,
-                    updated_at: new Date(),
-                },
-            });
-            return { status: true, msg: "Profile Updated..." };
-        }
-        catch (err) {
-            return { status: true, msg: "Profile Not Updated Server Error..." ,err}
-        }
-    }
+    
 
     static async getUsersCount() {
         try {
@@ -121,6 +105,33 @@ export default class UserService {
         }
         catch (err) {
             return 0;
+        }
+    }
+    static async getUser(user_id) {
+        
+        try {
+            const user= await prisma.users.findFirst({
+                where:{id:Number(user_id)}
+            });
+
+            const roles = await prisma.user_roles.findFirst({
+                    where: { user_id:Number(user_id) },
+                    select: {
+                        roles: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            
+            });
+           
+            var userData={name:user.name,email:user.email,role:roles?.roles?.name}
+            
+            return userData;
+        }
+        catch (err) {
+             throw new Error("Server Error...");
         }
     }
 

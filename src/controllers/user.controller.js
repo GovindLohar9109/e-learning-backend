@@ -10,12 +10,13 @@ export default class UserController {
         var result = await UserService.userRegister(data);
         res.send(result);
     }
-    static async userUpdate(req, res) {
-        var data = req.body;
-        var result = await UserService.userUpdate(data, req.params.user_id);
-        res.send(result);
+    
+
+    static async getUser(req,res){
+        
+         res.status(200).json(await UserService.getUser(req.params.user_id));
     }
     static async getUsersCount(req, res) {
-        return res.send(await UserService.getUsersCount());
+         res.send(await UserService.getUsersCount());
     }
 }
