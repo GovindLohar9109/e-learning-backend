@@ -7,7 +7,10 @@
     "test": "jest",
     "dev": "nodemon src/app",
     "start": "node src/.js",
-    "seed": "node src/prisma/seed/seed.js"
+    "seed": "node src/prisma/seed/seed.js",
+    "migrate": "prisma migrate dev --name init",
+    "migrate:deploy": "prisma migrate deploy",
+    "generate": "prisma generate"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +22,7 @@
     "jest": "^30.2.0"
   },
   "devDependencies": {
+    "nodemon": "^3.1.11",
     "prisma": "^6.19.0"
   }
 }
