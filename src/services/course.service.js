@@ -31,23 +31,26 @@ export default class CourseService {
         }
     }
     static async deleteCourse({ course_id }) {
+       
         try {
 
             await prisma.courses.update({
-                where: { id: course_id },
+                where: { id: Number(course_id) },
                 data: { deleted_at: new Date() }
             })
             return ({ status: true, msg: "Course Deleted..." });
         }
         catch (err) {
+            console.log(err)
             return ({ status: false, msg: "Course Not Deleted..." });
 
         }
     }
     static async editCourse(course_id, course) {
+        
         try {
             await prisma.courses.update({
-                where: { id: course_id },
+                where: { id: Number(course_id) },
                 data: {
                     ...course,
                     updated_at: new Date()
@@ -61,12 +64,13 @@ export default class CourseService {
         }
     }
     static async getAllCourses({ search }) {
+        search = search?.replace(/"/g, "").trim();
         try {
             var result = await prisma.courses.findMany({
                 where: {
                     deleted_at: null,
                     name: {
-                        startsWith: search,
+                        contains: search,
                         mode: "insensitive"
                     }
                 }
@@ -92,14 +96,17 @@ export default class CourseService {
 
         }
     }
-    static async getCoursesByLimit({ limit, search }) {
-        console.log(search)
+    static async getCoursesByLimit(limit, search ) {
+       
+        search = search?.replace(/"/g, "").trim();
+
+
         try {
             var result = await prisma.courses.findMany({
                 where: {
                     deleted_at: null,
                     name: {
-                        contains:search,    // LIKE '%search%'
+                        contains: search,    
                         mode: "insensitive"
                     }
                 },
@@ -128,10 +135,15 @@ export default class CourseService {
 
         }
     }
-    static async getMyAllCourses({ user_id }) {
+    static async getMyAllCourses(user_id,search) {
+        search = search?.replace(/"/g, "").trim();
         try {
             const result = await prisma.courses.findMany({
                 where: {
+                    name: {
+                        contains: search,    
+                        mode: "insensitive"
+                    },
                     deleted_at: null,
                     users_courses: {
                         some: {

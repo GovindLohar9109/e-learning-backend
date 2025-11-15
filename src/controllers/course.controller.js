@@ -16,12 +16,13 @@ export default class CourseController {
         res.status(200).json(result);
     }
     static async editCourse(req, res) {
+        
         var result = await CourseService.editCourse(req.params.course_id, req.body);
         res.status(200).json(result);
     }
     static async getAllCourses(req, res) {
-        console.log(req.params)
-        var result = await CourseService.getAllCourses(req.params);
+        
+        var result = await CourseService.getAllCourses(req.query);
        
         res.status(200).json(result);
     }
@@ -31,13 +32,12 @@ export default class CourseController {
         res.status(200).json(result);
     }
     static async getCoursesByLimit(req, res) {
-        
-        var result = await CourseService.getCoursesByLimit(req.params);
+        var result = await CourseService.getCoursesByLimit(req.params.limit,req.query.search);
         res.status(200).json(result);
     }
     static async getMyAllCourses(req, res) {
         
-        var result = await CourseService.getMyAllCourses(req.params);
+        var result = await CourseService.getMyAllCourses(req.params.user_id,req.query.search);
         
         res.status(200).json(result);
     }
