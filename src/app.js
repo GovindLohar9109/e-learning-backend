@@ -1,18 +1,32 @@
 import express from "express";
-import cors from "cors"
+import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import xss from "xss-clean";
 import router from "./routes/index"
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient(); // prisma client object used to intract with DB
-const app = express();
+import mongoSanitize from "express-mongo-sanitize"; // works for general sanitization also
 const PORT = process.env.PORT || 8000;
+const app = express();
 
-app.use(cors());
+
+app.use(helmet());                     
+app.use(xss());                        
+app.use(mongoSanitize());             
+app.use(cors());                       
+
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  limit: 100,             
+  message: "Too many requests, try again later."
+});
+app.use(limiter);
 app.use(express.json());
 
+app.use("/", router);
 
-app.use("/",router)
 
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
 
-export default app;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
