@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "This is E-Learning Project which will provide courses to users.",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon src/app",
     "start": "node src/.js",
     "seed": "node src/prisma/seed/seed.js",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.11",
-    "prisma": "^6.19.0"
+    "prisma": "^6.19.0",
+    "supertest": "^7.1.4"
   }
 }
