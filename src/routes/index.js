@@ -1,9 +1,11 @@
 import express from "express";
-import userReducer from "./user.route.js"
+import userRoute from "./user.route.js"
+import courseRoute from "./course.route.js"
 const router=express.Router();
 
 
-router.use("/",userReducer);
+router.use("/",userRoute);
+router.use("/",courseRoute);
 
 
 
