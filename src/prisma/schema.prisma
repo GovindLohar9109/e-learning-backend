@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model course {
+model courses {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(150)
   description   String
@@ -22,9 +22,10 @@ model course {
   users_courses users_courses[]
 
   @@index([name,deleted_at], map: "course_name_index")
+  @@map("courses")
 }
 
-model feedback {
+model feedbacks {
   id         Int       @id(map: "feedback_pkey1") @default(autoincrement())
   user_id    Int
   message    String   @db.VarChar(255)
@@ -32,18 +33,20 @@ model feedback {
   updated_at DateTime  @default(now()) @db.Timestamptz(6)
   deleted_at DateTime? @db.Timestamptz(6)
   users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("feedbacks")
 }
 
-model role {
+model roles {
   id         Int         @id @default(autoincrement())
   name       String      @unique(map: "roles_name_ukey") @db.VarChar(255)
   created_at DateTime    @default(now()) @db.Timestamptz(6)
   updated_at DateTime    @default(now()) @db.Timestamptz(6)
   deleted_at DateTime?    @db.Timestamptz(6)
   user_roles user_roles[]
+   @@map("roles")
 }
 
-model user_role {
+model user_roles {
   id         Int       @id @default(autoincrement())
   user_id    Int
   role_id    Int
@@ -54,9 +57,10 @@ model user_role {
   users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([user_id, role_id, deleted_at], map: "user_roles_user_id_role_id_ukey")
+  @@map("user_roles")
 }
 
-model user {
+model users {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(255)
   email         String         @unique(map: "users_user_email_key") @db.VarChar(255)
@@ -67,9 +71,10 @@ model user {
   feedbacks     feedbacks[]
   user_roles    user_roles[]
   users_courses users_courses[]
+  @@map("users")
 }
 
-model users_course {
+model users_courses {
   id         Int       @id @default(autoincrement())
   user_id    Int
   course_id  Int
@@ -80,4 +85,5 @@ model users_course {
   users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([user_id, course_id,deleted_at], map: "users_courses_user_id_course_id_cidx")
+   @@map("users_courses")
 }
