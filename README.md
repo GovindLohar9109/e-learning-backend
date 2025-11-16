@@ -15,7 +15,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
+git clone https://github.com/<git@github.com:GovindLohar9109/e-learning-backend.git>/<e-learning-backend>.git
 cd <repo-name>
 
 ### Install Dependencies
@@ -55,6 +55,12 @@ npm test
 
 ## To start server
 node app.js
+
+"scripts": {
+  "dev": "nodemon app.js",
+  "start": "node app.js",
+  "test": "echo \"No tests specified\" && exit 0"
+}
 
 ## Scripts Used in This Project
 
