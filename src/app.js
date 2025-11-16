@@ -3,7 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import xss from "xss-clean";
-import router from "./routes/index"
+import router from "./routes/index.js"
 import mongoSanitize from "express-mongo-sanitize"; // works for general sanitization also
 const PORT = process.env.PORT || 8000;
 const app = express();

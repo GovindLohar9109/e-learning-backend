@@ -1,8 +1,9 @@
 // prisma/seed.js
 import { PrismaClient } from "@prisma/client";
 import { courseData, rolesData } from "../data.js";
-import { generateHashPassword } from "../utils/hashPassAction.js";
-
+import {generateHashPassword} from "../../utils/hashPassAction.js"
+import dotenv from "dotenv"
+dotenv.config();
 
 
 
@@ -24,6 +25,7 @@ export default class SeedInitial {
         } catch (err) {
             console.error("  Courses already added...");
         } finally {
+
             await prisma.$disconnect();
         }
     }
@@ -52,12 +54,12 @@ export default class SeedInitial {
             if (count == 0) {
 
 
-                var hash_pass = await generateHashPassword("Gl12345678");
+                var hash_pass = await generateHashPassword(process.env.ADMIN_PASSWORD);
 
                 const user = await prisma.users.create({
                     data: {
-                        name: "Govind Lohar",
-                        email: "govind123@gmail.com",
+                        name:process.env.ADMIN_NAME,
+                        email:process.env.ADMIN_EMAIL,
                         password: hash_pass,
                         
                     }
