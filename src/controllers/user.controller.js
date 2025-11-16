@@ -6,17 +6,20 @@ export default class UserController {
         var result = await UserService.userLogin(data);
         
         if(!result.status)return res.send(result);
-        res.cookie("accessToken", result.accessToken,cookieOptions);
+        res.cookie("accessToken", result.accessToken);
         res.cookie("refreshToken", result.refreshToken,cookieOptions);
+        res.cookie("role", result.role);
         return res.status(200).send({status:true,msg:result.msg,role:result.role});
     }
     static  async userRegister(req, res) {
+       
         var data = req.body;
         var result =  await UserService.userRegister(data);
        
         if(!result.status)return res.send(result);
-       res.cookie("accessToken", result.accessToken,cookieOptions);
+        res.cookie("accessToken", result.accessToken);
         res.cookie("refreshToken", result.refreshToken,cookieOptions);
+        res.cookie("role",result.role,cookieOptions);
         return res.status(200).send({status:true,msg:result.msg,role:result.role});
 
     }
@@ -26,8 +29,12 @@ export default class UserController {
     static async getUsersCount(req, res) {
          res.send( UserService.getUsersCount());
     }
-    static  async userLogout(req,res){
+    static async userLogout(req,res){
+        console.log(req.cookies)
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
+        res.clearCookie("role");
+        res.status(200).json({status:true,msg:"Logout"})
+
     }
 }

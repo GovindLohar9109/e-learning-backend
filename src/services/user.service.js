@@ -1,15 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 import { generateHashPassword, comparePassword } from "../utils/hashPassAction.js";
-import { cookieOptions, generateAccessAndRefreshToken } from "../utils/authTokenAction.js";
+import {  generateAccessAndRefreshToken } from "../utils/authTokenAction.js";
+import validation from "../validators/validation.js";
 const prisma = new PrismaClient();
+
 export default class UserService {
-    static async userRegister(data,res) {
+    static async userRegister(data) {
+        const resp=validation(data);
+        if(resp.status==false)return resp;
         try {
             var user = await prisma.users.findFirst({
                 where: { email: data.email }
             })
             if (!user) {
-                const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:user.email});
+                 
+                const {accessToken,refreshToken}=generateAccessAndRefreshToken({email:data.email});
                 var hash_pass = await generateHashPassword(data.password);
                 data.password = hash_pass;
                 user = await prisma.users.create({
@@ -31,10 +36,10 @@ export default class UserService {
             }
         }
         catch (err) {
-            return { status: false, msg: "Server Error" + err };
+            return { status: false, msg: err.message };
         }
     }
-    static async userLogin(data,res) {
+    static async userLogin(data) {
         try {
             var user = await prisma.users.findFirst({
                 where: { email: data.email }
@@ -42,7 +47,7 @@ export default class UserService {
             if (user) {
                 var isPassMatch = await comparePassword(data.password, user.password)
                 if (isPassMatch) {
-                    const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:user.email});
+                    const {accessToken,refreshToken}=generateAccessAndRefreshToken({email:data.email});
                      const userWithRole = await prisma.users.findFirst({
                         where: { id: user.id },
                         include: {
@@ -56,7 +61,7 @@ export default class UserService {
                         },
                     });
                     var role = userWithRole.user_roles[0].roles.name;
-                    return { status: true, accessToken,refreshToken,role,msg:"User Logged In"};
+                    return { status: true, accessToken,refreshToken,role:(role=="Admin")?2:1,msg:"User Logged In"};
                 }
                 else {
                     return { status: false, msg: "Incorrect User or Password" };

@@ -20,7 +20,7 @@ export default class FeedbackService {
                     deleted_at: null,
                 }
             })
-            return (result);
+            return result;
         }
         catch (err) {
             return [];       

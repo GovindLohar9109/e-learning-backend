@@ -1,13 +1,16 @@
 import express from "express";
 import cors from "cors"
-import SeedInitial from "./prisma/seed/seed.js";
-import { PrismaClient } from "@prisma/client";
 import router from "./routes/index.js";
-import authMiddleware from "./middleware/auth.middleware.js";
+import cookieParser from "cookie-parser";
 const app = express();
 const PORT = process.env.PORT || 8000;
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
+
 app.use(express.json());
+app.use(cookieParser())
 // routes
-app.use("/",authMiddleware, router);
+app.use("/", router);
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

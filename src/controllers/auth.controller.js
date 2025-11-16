@@ -1,5 +1,4 @@
 import AuthService from "../services/auth.service.js";
-import { cookieOptions } from "../utils/authTokenAction.js";
 
 export default class AuthController{
     static refresh(req,res){
@@ -9,7 +8,7 @@ export default class AuthController{
             res.status(401).json(result);
             return ;
         }
-        res.cookie("accessToken",result.accessToken,cookieOptions);
+        res.cookie("accessToken",result.accessToken);
         res.status(200).json({msg:"New Access Token Generated"});
     }
 }
