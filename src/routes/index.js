@@ -1,7 +1,5 @@
-import express  from "express";
-import healthRoute from "./health.route.js";
+import express from "express";
+import userReducer from "./userRoute.js"
 const router=express.Router();
-router.use("/",healthRoute)
+router.use("/",userReducer);
 export default router;
-
-

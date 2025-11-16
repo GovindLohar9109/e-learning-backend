@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-
 export async function generateAuthToken(user_email){
     var key=process.env.JWT_SECRET_KEY +"#"+user_email;
     try{
@@ -12,8 +11,6 @@ export async function generateAuthToken(user_email){
         return "";
     }
 }
-
-
 export async function verifyAuthToken(user_email,token){
     var key=process.env.JWT_SECRET_KEY +"#"+user_email;
     try{
