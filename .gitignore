@@ -1,6 +1,8 @@
 # Node modules
 node_modules/
 
+/generated/prisma
+
 # Lock files (optional)
 package-lock.json
 yarn.lock
@@ -36,9 +38,14 @@ coverage/
 .DS_Store
 Thumbs.db
 
+/generated/prisma
 # Editor directories and files
 .vscode/
 .idea/
 
 # Cache
 .cache/
+
+/src/generated/prisma
+
+/src/generated/prisma
