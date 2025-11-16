@@ -2,25 +2,28 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-export async function generateAuthToken(user_email){
-    var key=process.env.JWT_SECRET_KEY +"#"+user_email;
-    try{
-        var token=jwt.sign({user_email},key);
-        return token;
+export async function generateAccessToken(email){
+   try{
+        var accessToken=jwt.sign({email},process.env.ACCESS_TOKEN_SECRET);
+        return accessToken;
     }
     catch(err){
-        return "";
+        throw new Error("Server Error")
+    }
+}
+export async function generateRefreshToken(email){
+   try{
+        var refreshToken=jwt.sign({email},process.env.REFRESH_TOKEN_SECRET);
+        return refreshToken;
+    }
+    catch(err){
+        throw new Error("Server Error")
     }
 }
 
-
-export async function verifyAuthToken(user_email,token){
-    var key=process.env.JWT_SECRET_KEY +"#"+user_email;
-    try{
-        var isTokenMatch= jwt.verify(token,key);
-        return isTokenMatch;
-    }
-    catch(err){
-        return false;
+export function getCookiePayload(){
+    return {
+        httpOnly:true,
+        secure:true
     }
 }
