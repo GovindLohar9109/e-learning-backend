@@ -15,7 +15,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<git@github.com:GovindLohar9109/e-learning-backend.git>/<e-learning-backend>.git
+git clone https://github.com/git@github.com:GovindLohar9109/e-learning-backend.git/e-learning-backend.git
 cd <repo-name>
 
 ### Install Dependencies
