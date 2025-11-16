@@ -1,39 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export default class CourseService {
-    static async addCourse(course) {
-        try {
-            var result = await prisma.courses.create({
-                data: course
-            })
-            return ({ status: true, msg: "Course Added..." });
-        }
-        catch (err) {
-            return ({ status: false, msg: "Course Not Added..." + err });
-
-        }
-    }
+   
     static async addToMyCourse({ course_id, user_id }) {
         course_id = Number(course_id);
         user_id = Number(user_id)
         try {
             await prisma.users_courses.create({
                 data: { course_id, user_id },
-
             })
-
             return ({ status: true, msg: "Course Added to MyCourses ..." });
         }
         catch (err) {
-
             return ({ status: false, msg: "Courses is not Added..." });
-
         }
     }
     static async deleteCourse({ course_id }) {
-       
         try {
-
             await prisma.courses.update({
                 where: { id: Number(course_id) },
                 data: { deleted_at: new Date() }
@@ -43,11 +26,9 @@ export default class CourseService {
         catch (err) {
             console.log(err)
             return ({ status: false, msg: "Course Not Deleted..." });
-
         }
     }
     static async editCourse(course_id, course) {
-        
         try {
             await prisma.courses.update({
                 where: { id: Number(course_id) },
@@ -60,7 +41,6 @@ export default class CourseService {
         }
         catch (err) {
             return ({ status: false, msg: "Course Not Updated..." });
-
         }
     }
     static async getAllCourses({ search }) {
@@ -75,13 +55,10 @@ export default class CourseService {
                     }
                 }
             })
-
-
             return (result);
         }
         catch (err) {
             return [];
-
         }
     }
     static async getCourseCount() {
@@ -93,14 +70,10 @@ export default class CourseService {
         }
         catch (err) {
             return (0);
-
         }
     }
     static async getCoursesByLimit(limit, search ) {
-       
         search = search?.replace(/"/g, "").trim();
-
-
         try {
             var result = await prisma.courses.findMany({
                 where: {
@@ -112,13 +85,10 @@ export default class CourseService {
                 },
                 take: Number(limit)
             });
-            
-
             return (result);
         }
         catch (err) {
             return [];
-
         }
     }
     static async getCoursesDetailsById({ course_id }) {
@@ -132,7 +102,6 @@ export default class CourseService {
         catch (err) {
             console.log(err)
             return {};
-
         }
     }
     static async getMyAllCourses(user_id,search) {
@@ -153,18 +122,14 @@ export default class CourseService {
                     }
                 }
             });
-
-
             return (result);
         }
         catch (err) {
             console.log(err)
             return [];
-
         }
     }
     static async removeMyCourse({ user_id, course_id }) {
-
         try {
             await prisma.users_courses.delete({
                 where: {
@@ -174,14 +139,11 @@ export default class CourseService {
                     }
                 }
             });
-
-
             return ({ status: true, msg: "MyCourse Deleted..." });
         }
         catch (err) {
             console.log(err);
             return ({ status: true, msg: "MyCourse Not Deleted..." });
-
         }
     }
 }

@@ -1,70 +1,49 @@
 import { PrismaClient } from "@prisma/client";
 import { generateHashPassword, comparePassword } from "../utils/hashPassAction.js";
-import { generateAuthToken } from "../utils/authTokenAction.js";
-
+import { cookieOptions, generateAccessAndRefreshToken } from "../utils/authTokenAction.js";
 const prisma = new PrismaClient();
-
 export default class UserService {
-
-    static async userRegister(data) {
-
+    static async userRegister(data,res) {
         try {
             var user = await prisma.users.findFirst({
                 where: { email: data.email }
             })
-            
             if (!user) {
-
+                const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:user.email});
                 var hash_pass = await generateHashPassword(data.password);
                 data.password = hash_pass;
                 user = await prisma.users.create({
-                    data: data
+                    data: {...data}
                 })
-
                 var role = await prisma.roles.findFirst({
                     where: { name: "User" }
                 })
-
                 await prisma.user_roles.create({
                     data: {
                         user_id: user.id,
                         role_id: role.id
                     }
                 })
-
-
-                var token = await generateAuthToken(data.email);
-
-                user = { user_email:data.email ,user_name:data.name, user_role: "User" };
-                return { status: true, msg: "User Registered...", token, user };
+                return { status: true, accessToken,refreshToken,role:1,msg:"User Registered "};
             }
             else {
                 return { status: false, msg: "User Already Registered..." };
             }
         }
         catch (err) {
-
             return { status: false, msg: "Server Error" + err };
-
         }
     }
-
-    static async userLogin(data) {
-
+    static async userLogin(data,res) {
         try {
             var user = await prisma.users.findFirst({
                 where: { email: data.email }
             })
-
-            
             if (user) {
-
                 var isPassMatch = await comparePassword(data.password, user.password)
                 if (isPassMatch) {
-                    var token = await generateAuthToken(data.email);
-
-
-                    const userWithRole = await prisma.users.findFirst({
+                    const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:user.email});
+                     const userWithRole = await prisma.users.findFirst({
                         where: { id: user.id },
                         include: {
                             user_roles: {
@@ -76,30 +55,22 @@ export default class UserService {
                             },
                         },
                     });
-
                     var role = userWithRole.user_roles[0].roles.name;
-
-                    user = { user_email: user.email, user_name: user.name, user_role: role };
-                    return { status: true, msg: "User LoggedIn...", token, user: user };
+                    return { status: true, accessToken,refreshToken,role,msg:"User Logged In"};
                 }
                 else {
                     return { status: false, msg: "Incorrect User or Password" };
                 }
-
             }
             else {
                 return { status: false, msg: "Incorrect User or Password" };
             }
         }
         catch (err) {
-
             return { status: false, msg: "Server Error " + err };
-            return
         }
     }
-    
-
-    static async getUsersCount() {
+     static async getUsersCount() {
         try {
             return await prisma.users.count();
         }
@@ -108,12 +79,10 @@ export default class UserService {
         }
     }
     static async getUser(user_id) {
-        
         try {
             const user= await prisma.users.findFirst({
                 where:{id:Number(user_id)}
             });
-
             const roles = await prisma.user_roles.findFirst({
                     where: { user_id:Number(user_id) },
                     select: {
@@ -123,18 +92,13 @@ export default class UserService {
                         }
                     }
                 }
-            
             });
-           
             var userData={name:user.name,email:user.email,role:roles?.roles?.name}
-            
             return userData;
         }
         catch (err) {
              throw new Error("Server Error...");
         }
     }
-
-
-
+    
 }
