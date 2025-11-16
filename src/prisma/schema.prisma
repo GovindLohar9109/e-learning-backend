@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model courses {
+model course {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(150)
   description   String
@@ -24,7 +24,7 @@ model courses {
   @@index([name,deleted_at], map: "course_name_index")
 }
 
-model feedbacks {
+model feedback {
   id         Int       @id(map: "feedback_pkey1") @default(autoincrement())
   user_id    Int
   message    String   @db.VarChar(255)
@@ -34,7 +34,7 @@ model feedbacks {
   users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model roles {
+model role {
   id         Int         @id @default(autoincrement())
   name       String      @unique(map: "roles_name_ukey") @db.VarChar(255)
   created_at DateTime    @default(now()) @db.Timestamptz(6)
@@ -43,7 +43,7 @@ model roles {
   user_roles user_roles[]
 }
 
-model user_roles {
+model user_role {
   id         Int       @id @default(autoincrement())
   user_id    Int
   role_id    Int
@@ -56,7 +56,7 @@ model user_roles {
   @@unique([user_id, role_id, deleted_at], map: "user_roles_user_id_role_id_ukey")
 }
 
-model users {
+model user {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(255)
   email         String         @unique(map: "users_user_email_key") @db.VarChar(255)
@@ -69,7 +69,7 @@ model users {
   users_courses users_courses[]
 }
 
-model users_courses {
+model users_course {
   id         Int       @id @default(autoincrement())
   user_id    Int
   course_id  Int
