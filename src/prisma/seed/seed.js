@@ -1,6 +1,6 @@
 // prisma/seed.js
 import { PrismaClient } from "@prisma/client";
-import { courseData, rolesData } from "./data.js";
+import { courseData, rolesData } from "../data.js";
 import { generateHashPassword } from "../utils/hashPassAction.js";
 
 
