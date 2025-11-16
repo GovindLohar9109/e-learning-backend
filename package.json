@@ -1,13 +1,17 @@
 {
-  "name": "server",
+  "name": "E-Learning-Management-System",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This is E-Learning Project which will provide courses to users.",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app",
-    "start": "node app.js",
-    "seed": "node prisma/seed.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "nodemon src/app",
+    "start": "node src/app.js",
+    "seed": "node src/prisma/seed/seed.js",
+    "migrate": "prisma migrate dev --name init",
+    "migrate:deploy": "prisma migrate deploy",
+    "generate": "prisma generate"
   },
   "author": "",
   "license": "ISC",
@@ -18,9 +22,16 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "jest": "^30.2.0",
+    "xss-clean": "^0.1.4"
   },
   "devDependencies": {
-    "prisma": "^6.19.0"
+    "nodemon": "^3.1.11",
+    "prisma": "^6.19.0",
+    "supertest": "^7.1.4"
   }
 }
