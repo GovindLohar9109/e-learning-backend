@@ -15,8 +15,9 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/git@github.com:GovindLohar9109/e-learning-backend.git/e-learning-backend.git
-cd <repo-name>
+git clone https://github.com/GovindLohar9109/e-learning-backend.git
+
+cd e-learning-backend
 
 ### Install Dependencies
 npm install
