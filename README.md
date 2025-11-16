@@ -1,74 +1,81 @@
+
 # Node.js Backend Project
 
----
-
 ## Table of Contents
+1. [Project Setup](#project-setup)
+2. [Running the Project](#running-the-project)
+3. [Database Migrations](#database-migrations)
+4. [Seeding](#seeding)
+5. [Testing](#testing)
 
-
-1. [Running the Project](#running-the-project)
-2. [Database Migrations](#database-migrations)
-3. [Testing](#testing)
-
+---
 
 ## Project Setup
 
-#### Clone the repository:
+### 1. Clone the Repository
 
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+```bash
+git clone https://github.com/GovindLohar9109/e-learning-backend.git
 
-#### Install dependencies:
+cd e-learning-backend
 
+### Install Dependencies
 npm install
----
-
-## Running the Project
-
-* Start the development server:
-
-```bash
-npm run dev
-```
-
-* Start the production server:
-
-```bash
-npm start
-```
-
-* The server will run on `http://localhost:8000` by default.
-
----
 
 ## Database Migrations
 
-### 1. Create a new migration
+### Create a New Migration
 
-For Prisma:
-
-```bash
 npx prisma migrate dev --name <migration_name>
-```
 
-### 2. Execute migrations
+### Execute Migrations (Production)
 
-For Prisma:
-
-```bash
 npx prisma migrate deploy
 
-## For seed file
+### Generate Prisma Client
 
-npm run seed;
+npm run generate
+### Sync Schema Without Migrations (Optional)
 
+npm run db:push
 
+### Pull Schema From the Database (Optional)
+
+npm run db:pull
+
+### Seeding
+- Run the seed script to populate initial data:
+
+npm run seed
+Testing
+Run unit tests:
 
 ## Testing
 
-* Run unit tests:
-
-```bash
 npm test
-```
 
----
+## To start server
+node app.js
+
+"scripts": {
+  "dev": "nodemon app.js",
+  "start": "node app.js",
+  "test": "echo \"No tests specified\" && exit 0"
+}
+
+## Scripts Used in This Project
+
+"scripts": {
+  "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+  "dev": "nodemon src/app.js",
+  "start": "node src/app.js",
+
+  "seed": "node src/prisma/seed/seed.js",
+
+  "migrate": "prisma migrate dev --name init",
+  "migrate:deploy": "prisma migrate deploy",
+  "generate": "prisma generate",
+
+  "db:push": "prisma db push",
+  "db:pull": "prisma db pull"
+}

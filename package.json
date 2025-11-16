@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon src/app",
-    "start": "node src/.js",
+    "start": "node src/app.js",
     "seed": "node src/prisma/seed/seed.js",
     "migrate": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy",
@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
