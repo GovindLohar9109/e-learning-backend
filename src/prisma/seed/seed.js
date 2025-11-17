@@ -1,75 +1,63 @@
-// prisma/seed.js
 import { PrismaClient } from "@prisma/client";
 import { courseData, rolesData } from "../data.js";
-import {generateHashPassword} from "../../utils/hashPassAction.js"
-import dotenv from "dotenv"
+import { generateHashPassword } from "../../utils/hashPassAction.js";
+import dotenv from "dotenv";
 dotenv.config();
+
 const prisma = new PrismaClient();
+
 export default class SeedInitial {
-    async insertDefaultCoursesData() {
-        try {
-            var count = await prisma.courses.count();
-            if (count == 0) {
-                await prisma.courses.createMany({
+
+    async seedAll() {
+        await prisma.$transaction(async (tx) => {
+
+            
+            const courseCount = await tx.courses.count();
+            if (courseCount === 0) {
+                await tx.courses.createMany({
                     data: courseData,
-                    skipDuplicates:true
-                })
+                    skipDuplicates: true
+                });
             }
-        } catch (err) {
-            console.error("  Courses already added...");
-        } finally {
-            await prisma.$disconnect();
-        }
-    }
-    async insertRoles() {
-        try {
-            await prisma.roles.createMany({
+
+            
+            await tx.roles.createMany({
                 data: rolesData,
-                skipDuplicates: true
-            })
-        }
-        catch (err) {
-            console.log("Roles already added...");
-        }
-        finally {
-            await prisma.$disconnect();
-        }
-    }
-    async insertAdmin() {
-        try {
-            const count = await prisma.users.count();
-            if (count == 0) {
-                var hash_pass = await generateHashPassword(process.env.ADMIN_PASSWORD);
-                const user = await prisma.users.create({
+                skipDuplicates: true,
+            });
+
+            // Insert Admin user
+            const adminCount = await tx.users.count();
+            if (adminCount === 0) {
+
+                const hash_pass = await generateHashPassword(process.env.ADMIN_PASSWORD);
+
+                const user = await tx.users.create({
                     data: {
-                        name:process.env.ADMIN_NAME,
-                        email:process.env.ADMIN_EMAIL,
+                        name: process.env.ADMIN_NAME,
+                        email: process.env.ADMIN_EMAIL,
                         password: hash_pass,
                     }
-                })
-                var role = await prisma.roles.findFirst({
+                });
+
+                const role = await tx.roles.findFirst({
                     where: { name: "Admin" }
                 });
-                user = await prisma.user_roles.create({
+
+                await tx.user_roles.create({
                     data: {
                         user_id: user.id,
                         role_id: role.id,
                     }
-                })
+                });
             }
-        }
-        catch (err) {
-        }
-        finally {
-            await prisma.$disconnect();
-        }
+        });
+
+        
+        await prisma.$disconnect();
     }
 }
-// call method explicitly
+
+
 const seed = new SeedInitial();
-async function main() {
-    await seed.insertDefaultCoursesData();
-    await seed.insertRoles();
-    await seed.insertAdmin();
-}
-main();
+seed.seedAll();
