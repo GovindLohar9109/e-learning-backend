@@ -1,23 +1,21 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 dotenv.config();
-export async function generateAuthToken(user_email){
-    var key=process.env.JWT_SECRET_KEY ;
-    try{
-        var token=jwt.sign({user_email},key);
-        return token;
-    }
-    catch(err){
-        return "";
-    }
+export async function generateAuthToken(user_email) {
+  var key = process.env.JWT_SECRET_KEY;
+  try {
+    var token = jwt.sign({ user_email }, key);
+    return token;
+  } catch (err) {
+    throw new Error(`Token Generate Failed...`);
+  }
 }
-export async function verifyAuthToken(user_email,token){
-    var key=process.env.JWT_SECRET_KEY +"#"+user_email;
-    try{
-        var isTokenMatch= jwt.verify(token,key);
-        return isTokenMatch;
-    }
-    catch(err){
-        return false;
-    }
+export async function verifyAuthToken(user_email, token) {
+  var key = process.env.JWT_SECRET_KEY + '#' + user_email;
+  try {
+    var isTokenMatch = jwt.verify(token, key);
+    return isTokenMatch;
+  } catch (err) {
+    return false;
+  }
 }

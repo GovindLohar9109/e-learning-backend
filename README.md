@@ -1,7 +1,7 @@
-
 # Node.js Backend Project
 
 ## Table of Contents
+
 1. [Project Setup](#project-setup)
 2. [Running the Project](#running-the-project)
 3. [Database Migrations](#database-migrations)
@@ -75,8 +75,9 @@ node app.js
     "seed-revert-roles": "node src/prisma/seed/seed-revert-roles.js",
     "seed-revert-users": "node src/prisma/seed/seed-revert-users.js",
     "seed-revert-all": "node src/prisma/seed/seed-revert.js",
-    
+
     "migrate": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate"
   },
+```
