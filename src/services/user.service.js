@@ -70,7 +70,6 @@ export default class UserService {
         }
         catch (err) {
             return { status: false, msg: "Server Error " + err };
-            return
         }
     }
     static async getUsersCount() {

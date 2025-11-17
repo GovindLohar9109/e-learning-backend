@@ -1,5 +1,5 @@
 import express from "express";
-import userReducer from "./userRoute.js"
+import userRoute from "./userRoute.js"
 const router=express.Router();
-router.use("/",userReducer);
+router.use("/",userRoute);
 export default router;
