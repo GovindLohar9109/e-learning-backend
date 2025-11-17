@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 export async function generateAuthToken(user_email){
-    var key=process.env.JWT_SECRET_KEY +"#"+user_email;
+    var key=process.env.JWT_SECRET_KEY ;
     try{
         var token=jwt.sign({user_email},key);
         return token;
