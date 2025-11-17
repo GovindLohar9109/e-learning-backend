@@ -5,6 +5,7 @@ export default class CourseService {
     static async addToMyCourse({ course_id, user_id }) {
         course_id = Number(course_id);
         user_id = Number(user_id)
+       
         try {
             await prisma.users_courses.create({
                 data: { course_id, user_id },
@@ -24,7 +25,7 @@ export default class CourseService {
             return ({ status: true, msg: "Course Deleted..." });
         }
         catch (err) {
-            console.log(err)
+            
             return ({ status: false, msg: "Course Not Deleted..." });
         }
     }
@@ -96,11 +97,11 @@ export default class CourseService {
             var result = await prisma.courses.findFirst({
                 where: { id: Number(course_id) }
             })
-            console.log(result)
+            
             return (result);
         }
         catch (err) {
-            console.log(err)
+           
             return {};
         }
     }
@@ -125,24 +126,29 @@ export default class CourseService {
             return (result);
         }
         catch (err) {
-            console.log(err)
+         
             return [];
         }
     }
     static async removeMyCourse({ user_id, course_id }) {
+       
         try {
-            await prisma.users_courses.delete({
-                where: {
-                    user_id_course_id: {
-                        user_id: Number(user_id),
-                        course_id: Number(course_id)
-                    }
-                }
-            });
+            await prisma.users_courses.deleteMany({
+            where: {
+                user_id: Number(user_id),
+                course_id: Number(course_id),
+                deleted_at: null
+            }
+        });
+
+      
+        console.log(result)
+
+            
             return ({ status: true, msg: "MyCourse Deleted..." });
         }
         catch (err) {
-            console.log(err);
+            console.log(err)
             return ({ status: true, msg: "MyCourse Not Deleted..." });
         }
     }

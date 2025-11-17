@@ -27,7 +27,6 @@ export default class SeedInitial {
             })
         }
         catch (err) {
-            console.log("Roles already added...");
         }
         finally {
             await prisma.$disconnect();

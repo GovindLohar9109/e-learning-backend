@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { generateHashPassword, comparePassword } from "../utils/hashPassAction.js";
-import {  generateAccessAndRefreshToken } from "../utils/authTokenAction.js";
+import {  generateAccessToken } from "../utils/authTokenAction.js";
 import validation from "../validators/validation.js";
 const prisma = new PrismaClient();
 
@@ -28,9 +28,8 @@ export default class UserService {
                         role_id: role.id
                     }
                 })
-                const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:data.email});
-
-                return { status: true, accessToken,refreshToken,role:1,msg:"User Registered "};
+                const accessToken=generateAccessToken({id:user.id,email:user.email})
+                return { status: true,accessToken,role:1,msg:"User Registered "};
             }
             else {
                 return { status: false, msg: "User Already Registered..." };
@@ -48,7 +47,6 @@ export default class UserService {
             if (user) {
                 var isPassMatch = await comparePassword(data.password, user.password)
                 if (isPassMatch) {
-                    const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:data.email});
                      const userWithRole = await prisma.users.findFirst({
                         where: { id: user.id },
                         include: {
@@ -62,7 +60,8 @@ export default class UserService {
                         },
                     });
                     var role = userWithRole.user_roles[0].roles.name;
-                    return { status: true, accessToken,refreshToken,role:(role=="Admin")?2:1,msg:"User Logged In"};
+                    const accessToken=generateAccessToken({id:user.id,email:user.email})
+                    return { status: true,accessToken,role:(role=="Admin")?2:1,msg:"User Logged In"};
                 }
                 else {
                     return { status: false, msg: "Incorrect User or Password" };

@@ -1,10 +1,6 @@
 import CourseService from "../services/course.service.js"
 export default class CourseController {
-    static async addCourse(req, res) {
-        var data = req.body;
-        var result = await CourseService.addCourse(data);
-        res.status(200).send(result);
-    }
+   
     static async addToMyCourse(req, res) {
         var result = await CourseService.addToMyCourse(req.params);
         res.status(200).json(result);
@@ -34,6 +30,7 @@ export default class CourseController {
         res.status(200).json(result);
     }
     static async removeMyCourse(req, res) {
+        
         var result = await CourseService.removeMyCourse(req.params);
         res.status(200).json(result);
     }

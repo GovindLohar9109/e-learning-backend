@@ -8,7 +8,6 @@ export async function generateHashPassword(password) {
        
         return hash_pass;
     } catch (err) {
-        console.error("Error generating hash:", err);
         return null; // better than returning undefined
     }
 }
@@ -18,7 +17,6 @@ export async function comparePassword(password, hashPassword) {
         const isPassMatch = await bcrypt.compare(password, hashPassword);
         return isPassMatch; // returns true or false
     } catch (err) {
-        console.error("Error comparing password:", err);
         return false;
     }
 }
