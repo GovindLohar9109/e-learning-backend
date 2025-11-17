@@ -1,107 +1,90 @@
-// prisma/seed.js
 import { PrismaClient } from "@prisma/client";
 import { courseData, rolesData } from "../data.js";
-import {generateHashPassword} from "../../utils/hashPassAction.js"
-import dotenv from "dotenv"
+import { generateHashPassword } from "../../utils/hashPassAction.js";
+import dotenv from "dotenv";
 dotenv.config();
-
-
 
 const prisma = new PrismaClient();
 
 export default class SeedInitial {
-    async insertDefaultCoursesData() {
-        try {
-            var count = await prisma.courses.count();
-
-            if (count == 0) {
-                await prisma.courses.createMany({
-                    data: courseData,
-                    skipDuplicates:true
-                })
-                
-            }
-
-        } catch (err) {
-            console.error("  Courses already added...");
-        } finally {
-
-            await prisma.$disconnect();
-        }
+  async insertDefaultCoursesData() {
+    try {
+      const count = await prisma.courses.count();
+      console.log(count)
+      if (count === 0) {
+        await prisma.courses.createMany({
+          data: courseData,
+          skipDuplicates: true
+        });
+        console.log("Courses added");
+      } else {
+        console.log("Courses already exist");
+      }
+    } catch (err) {
+      console.error("Error inserting courses:", err);
     }
+  }
 
-    async insertRoles() {
-
-        try {
-            await prisma.roles.createMany({
-                data: rolesData,
-                skipDuplicates: true
-            })
-
-        }
-
-        catch (err) {
-            console.log("Roles already added...");
-        }
-        finally {
-            await prisma.$disconnect();
-        }
+  async insertRoles() {
+    try {
+      await prisma.roles.createMany({
+        data: rolesData,
+        skipDuplicates: true
+      });
+      console.log("Roles added");
+    } catch (err) {
+      console.log("Roles already added...");
     }
+  }
 
-    async insertAdmin() {
-        try {
-            const count = await prisma.users.count();
-            if (count == 0) {
+  async insertAdmin() {
+    try {
+      const count = await prisma.users.count();
+      if (count === 0) {
+        const hash_pass = await generateHashPassword(process.env.ADMIN_PASSWORD);
 
+        const user = await prisma.users.create({
+          data: {
+            name: process.env.ADMIN_NAME,
+            email: process.env.ADMIN_EMAIL,
+            password: hash_pass
+          }
+        });
 
-                var hash_pass = await generateHashPassword(process.env.ADMIN_PASSWORD);
+        const role = await prisma.roles.findFirst({
+          where: { name: "Admin" }
+        });
 
-                const user = await prisma.users.create({
-                    data: {
-                        name:process.env.ADMIN_NAME,
-                        email:process.env.ADMIN_EMAIL,
-                        password: hash_pass,
-                        
-                    }
-                })
+        await prisma.user_roles.create({
+          data: {
+            user_id: user.id,
+            role_id: role.id
+          }
+        });
 
-                var role = await prisma.roles.findFirst({
-                    where: { name: "Admin" }
-                });
-
-                user = await prisma.user_roles.create({
-                    data: {
-                        user_id: user.id,
-                        role_id: role.id,
-                        
-                    }
-                })
-
-            }
-
-        }
-        catch (err) {
-
-        }
-
-        finally {
-            await prisma.$disconnect();
-        }
+        console.log("Admin user added");
+      } else {
+        console.log("Admin user already exists");
+      }
+    } catch (err) {
+      console.error("Error inserting admin:", err);
     }
-
-
-
-
+  }
 }
 
-// call method explicitly
+// Run seed
 const seed = new SeedInitial();
-async function main() {
 
+async function main() {
+  try {
     await seed.insertDefaultCoursesData();
     await seed.insertRoles();
     await seed.insertAdmin();
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await prisma.$disconnect(); // disconnect only once
+  }
 }
 
 main();
-

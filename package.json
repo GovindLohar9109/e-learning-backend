@@ -8,7 +8,13 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon src/app",
     "start": "node src/app.js",
-    "seed": "node src/prisma/seed/seed.js",
+    "seed": "npx prisma db seed",
+
+    "seed-revert-courses":"node src/prisma/seed/seed-revert-courses.js",
+    "seed-revert-roles":"node src/prisma/seed/seed-revert-roles.js",
+    "seed-revert-users":"node src/prisma/seed/seed-revert-users.js",
+    "seed-revert-all":"node src/prisma/seed/seed-revert.js",
+    
     "migrate": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate"
@@ -31,5 +37,11 @@
     "nodemon": "^3.1.11",
     "prisma": "^6.19.0",
     "supertest": "^7.1.4"
-  }
+  },
+  "prisma": {
+  "seed": "node src/prisma/seed/seed.js"
 }
+
+}
+
+
