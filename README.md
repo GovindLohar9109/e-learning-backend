@@ -66,16 +66,17 @@ node app.js
 ## Scripts Used in This Project
 
 "scripts": {
-  "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-  "dev": "nodemon src/app.js",
-  "start": "node src/app.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "nodemon src/app",
+    "start": "node src/app.js",
+    "seed": "npx prisma db seed",
 
-  "seed": "node src/prisma/seed/seed.js",
-  "reverse-seed": "node src/prisma/seed/reverse.seed.js",
-  "migrate": "prisma migrate dev --name init",
-  "migrate:deploy": "prisma migrate deploy",
-  "generate": "prisma generate",
-
-  "db:push": "prisma db push",
-  "db:pull": "prisma db pull"
-}
+    "seed-revert-courses": "node src/prisma/seed/seed-revert-courses.js",
+    "seed-revert-roles": "node src/prisma/seed/seed-revert-roles.js",
+    "seed-revert-users": "node src/prisma/seed/seed-revert-users.js",
+    "seed-revert-all": "node src/prisma/seed/seed-revert.js",
+    
+    "migrate": "prisma migrate dev --name init",
+    "migrate:deploy": "prisma migrate deploy",
+    "generate": "prisma generate"
+  },
