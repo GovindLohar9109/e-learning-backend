@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
+<<<<<<< Updated upstream
 export async function generateAuthToken(user_email) {
   var key = process.env.JWT_SECRET_KEY;
   try {
@@ -19,3 +20,10 @@ export async function verifyAuthToken(user_email, token) {
     return false;
   }
 }
+=======
+export const generateAccessToken = (payload) => {
+  return  jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: process.env.ACCESS_TOKEN_TIME }
+  );
+};
+
+>>>>>>> Stashed changes
