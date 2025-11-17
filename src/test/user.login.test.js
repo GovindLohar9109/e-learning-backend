@@ -1,7 +1,7 @@
 import UserService from "../services/user.service.js";
 
-describe("User Login Service", () => {
-  describe("Testing Edge Case", () => {
+describe("USER LOGIN SERVICE", () => {
+  describe("TESTING EDGE CASES", () => {
     test("when fields are empty", async () => {
       const result = await UserService.userLogin({
         email: "",
@@ -10,7 +10,7 @@ describe("User Login Service", () => {
       expect(result.status).toBe(false);
       expect(result.msg).toBe("Please Fill All Field...");
     });
-    describe("when fields are invalid", () => {
+    describe("WHEN FIELDS ARE INVALID", () => {
       test("when email is invalid", async () => {
         const result = await UserService.userLogin({
           email: "govind123",
