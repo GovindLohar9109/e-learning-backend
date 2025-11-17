@@ -9,6 +9,7 @@
     "dev": "nodemon src/app",
     "start": "node src/app.js",
     "seed": "node src/prisma/seed/seed.js",
+    "reverse-seed":"node src/prisma/seed/reverse.seed.js",
     "migrate": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate"
