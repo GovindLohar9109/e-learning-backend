@@ -14,7 +14,7 @@ export default class SeedInitial {
                 })
             }
         } catch (err) {
-            console.error("  Courses already added...");
+
         } finally {
             await prisma.$disconnect();
         }

@@ -14,7 +14,6 @@ export default class UserService {
             })
             if (!user) {
                  
-                const {accessToken,refreshToken}=generateAccessAndRefreshToken({email:data.email});
                 var hash_pass = await generateHashPassword(data.password);
                 data.password = hash_pass;
                 user = await prisma.users.create({
@@ -29,6 +28,8 @@ export default class UserService {
                         role_id: role.id
                     }
                 })
+                const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:data.email});
+
                 return { status: true, accessToken,refreshToken,role:1,msg:"User Registered "};
             }
             else {
@@ -47,7 +48,7 @@ export default class UserService {
             if (user) {
                 var isPassMatch = await comparePassword(data.password, user.password)
                 if (isPassMatch) {
-                    const {accessToken,refreshToken}=generateAccessAndRefreshToken({email:data.email});
+                    const {accessToken,refreshToken}=generateAccessAndRefreshToken({id:user.id,email:data.email});
                      const userWithRole = await prisma.users.findFirst({
                         where: { id: user.id },
                         include: {
@@ -84,6 +85,7 @@ export default class UserService {
         }
     }
     static async getUser(user_id) {
+        
         try {
             const user= await prisma.users.findFirst({
                 where:{id:Number(user_id)}
@@ -98,7 +100,7 @@ export default class UserService {
                     }
                 }
             });
-            var userData={name:user.name,email:user.email,role:roles?.roles?.name}
+            var userData={id:user.id,name:user.name,email:user.email,role:roles?.roles?.name}
             return userData;
         }
         catch (err) {

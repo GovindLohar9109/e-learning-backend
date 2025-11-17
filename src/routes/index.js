@@ -6,7 +6,8 @@ import authRoute from "./auth.route.js"
 import authMiddleware from "../middleware/auth.middleware.js";
 const router=express.Router();
 router.use("/",userRoute);
+router.use("/",authRoute)
 router.use("/",authMiddleware,courseRoute);
 router.use("/",authMiddleware,feedbackRoute);
-router.use("/",authRoute);
+
 export default router;

@@ -5,16 +5,17 @@ import { generateAccessToken } from "../utils/authTokenAction.js";
 const prisma=new PrismaClient();
 export default class AuthService{
     static async refresh(refreshToken){
+         
         try{
         if(!refreshToken)return {status:false,msg:"No Refresh Token Found"};
         const decoded=jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET);
-        if(!decoded)return {status:false,msg:"Expired Token"}
-         const newAccessToken=generateAccessToken(decoded.email);
-         return {status:true,"accessToken":newAccessToken}
+        if(!decoded)return {status:false,msg:"Refresh Token Expired"}
+        const newAccessToken=generateAccessToken({id:decoded.id,email:decoded.email});
+      return {status:true,"accessToken":newAccessToken}
     }
 
     catch(err){
-        throw new Error("Not Token Found");
+        return {status:false,msg:"Refresh Token Not Found"}
     }
 }
 }

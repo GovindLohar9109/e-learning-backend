@@ -2,7 +2,7 @@ import express from "express";
 import CourseController from "../controllers/course.controller.js";
 import authorized from "../middleware/authorized.middleware.js";
 const router = express.Router();
-router.get("/courses/count",authorized,CourseController.getCoursesCount);
+router.get("/courses/count",CourseController.getCoursesCount);
 router.get("/courses/limit/:limit", CourseController.getCoursesByLimit);
 router.get("/courses/:course_id", CourseController.getCoursesDetailsById);
 router.put("/courses/:course_id",authorized, CourseController.editCourse);

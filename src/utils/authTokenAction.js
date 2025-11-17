@@ -10,10 +10,12 @@ export const generateRefreshToken = (payload) => {
   );
 };
 
-export const cookieOptions = {
-  httpOnly: true,
-  secure: true, 
-};
+export const cookieOptions =  { 
+    httpOnly: true,
+    secure: false, 
+    sameSite: "lax", 
+    path: "/"
+  }
 
 export  function generateAccessAndRefreshToken(email){
     const accessToken= generateAccessToken(email);

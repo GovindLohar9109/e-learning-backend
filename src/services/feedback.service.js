@@ -9,17 +9,21 @@ export default class FeedbackService {
             return ({ status: true, msg: "Feedback Added..." });
         }
         catch (err) {
-            console.log(err)
+           
             return ({ status: false, msg: "Feedback Not Added..." + err });       
     }
     }    
     static async getAllFeedback() {       
         try {
-            var result = await prisma.feedbacks.findMany({
+            const result=await prisma.feedbacks.findMany({
                 where: {
                     deleted_at: null,
+                },
+                select:{
+                    message:true
                 }
             })
+            
             return result;
         }
         catch (err) {
