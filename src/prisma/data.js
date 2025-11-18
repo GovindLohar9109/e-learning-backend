@@ -3,7 +3,7 @@ export const courseData = [
     name: "Learn Core Java",
     description:
       "This course will provide you in depth knowledge of core java and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 3,
     image_url: "ProgLang/java.png",
     link: "https://www.w3schools.com/java/",
     topics: [
@@ -29,15 +29,13 @@ export const courseData = [
       "Java Superglobals",
       "Java RegEx",
     ],
-    created_at: null,
-    updated_at: null,
-    deleted_at: "2025-11-12T23:24:03.485Z",
+    
   },
   {
     name: "Learn High-Level-Design",
     description:
       "This course will provide you in depth knowledge of Low-Level-Design and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 4,
     image_url: "SystemDesign/hld.png",
     link: "https://www.geeksforgeeks.org/what-is-high-level-design-learn-system-design/",
     topics: [
@@ -48,15 +46,13 @@ export const courseData = [
       "LLD Prerequisite For HLD",
       "How To Design Scalable High-level Design (HLD) Systems",
     ],
-    created_at: null,
-    updated_at: null,
-    deleted_at: "2025-11-12T23:26:37.359Z",
+   
   },
   {
     name: "Learn Low-Level-Design",
     description:
       "This course will provide you in depth knowledge of Low-Level-Design and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 5,
     image_url: "SystemDesign/lld.png",
     link: "https://www.geeksforgeeks.org/what-is-low-level-design-or-lld-learn-system-design/",
     topics: [
@@ -66,15 +62,13 @@ export const courseData = [
       "Design Patterns",
       "Problem on LLD",
     ],
-    created_at: null,
-    updated_at: null,
-    deleted_at: "2025-11-12T23:28:31.882Z",
+    
   },
   {
     name: "Learn Object-Oriented-Programming WITH C++",
     description:
       "This course will provide you in depth knowledge of Object-Oriented-Programming and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 3,
     image_url: "SystemDesign/oopswithc++.png",
     link: "https://www.w3schools.com/cpp/cpp_oop.asp",
     topics: [
@@ -90,15 +84,13 @@ export const courseData = [
       "C++ Abstraction",
       "C++ Interface",
     ],
-    created_at: null,
-    updated_at: null,
-    deleted_at: "2025-11-12T23:28:54.898Z",
+   
   },
   {
     name: "Learn Object-Oriented-Programming WITH Java",
     description:
       "This course will provide you in depth knowledge of Object-Oriented-Programming and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 4,
     image_url: "SystemDesign/oopswithjava.png",
     link: "https://www.w3schools.com/java/java_oop.asp",
     topics: [
@@ -114,15 +106,13 @@ export const courseData = [
       "Java Abstraction",
       "Java Interface",
     ],
-    created_at: null,
-    updated_at: null,
-    deleted_at: "2025-11-12T23:28:56.723Z",
+   
   },
   {
     name: "Learn Computer Network",
     description:
       "This course will provide you in depth knowledge of Computer Network and this is the best course and there is high demand for this course.",
-    duration: "12",
+    duration: 10,
     image_url: "CSFunda/cn.png",
     link: "https://www.geeksforgeeks.org/computer-network-tutorials/",
     topics: [
@@ -138,15 +128,13 @@ export const courseData = [
       "Routing",
       "Application Layer:DNS",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:41:09.599Z",
-    deleted_at: null,
+   
   },
   {
     name: "Learn Computer Network",
     description:
       "This course will provide you in depth knowledge of Mangement System and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 9,
     image_url: "CSFunda/dbms.png",
     link: "https://www.geeksforgeeks.org/dbms/",
     topics: [
@@ -160,15 +148,13 @@ export const courseData = [
       "Indexing, B and B+ trees",
       "File organization",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:40:38.933Z",
-    deleted_at: null,
+    
   },
   {
     name: "Learn PHP Core",
     description:
       "This course will provide you in depth knowledge of core PHP and this is the best course and there is high demand for this course.",
-    duration: "12",
+    duration: 8,
     image_url: "ProgLang/php.png",
     link: "https://www.w3schools.com/php/",
     topics: [
@@ -194,15 +180,13 @@ export const courseData = [
       "PHP Superglobals",
       "PHP RegEx",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:42:16.563Z",
-    deleted_at: null,
+    
   },
   {
     name: "Learn Operating System",
     description:
       "This course will provide you in depth knowledge of Operating System and this is the best course and there is high demand for this course.",
-    duration: "4 Hour",
+    duration: 7,
     image_url: "CSFunda/os.png",
     link: "https://www.geeksforgeeks.org/operating-systems/",
     topics: [
@@ -213,15 +197,13 @@ export const courseData = [
       "Types of Operating Systems",
       "How to Choose the Operating System?",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:45:24.155Z",
-    deleted_at: null,
+   
   },
   {
     name: "Learn Core C",
     description:
       "This course will provide you in depth knowledge of core C++ and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 8,
     image_url: "ProgLang/c++.png",
     link: "https://www.w3schools.com/php/",
     topics: [
@@ -247,15 +229,13 @@ export const courseData = [
       "C++ Superglobals",
       "C++ RegEx",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:45:45.192Z",
-    deleted_at: null,
+    
   },
   {
     name: "Learn Core C",
     description:
       "This course will provide you in depth knowledge of core C and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 7,
     image_url: "ProgLang/c.png",
     link: "https://www.w3schools.com/php/",
     topics: [
@@ -281,15 +261,13 @@ export const courseData = [
       "C Superglobals",
       "C RegEx",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:46:47.675Z",
-    deleted_at: null,
+    
   },
   {
     name: "Learn Core Python",
     description:
       "This course will provide you in depth knowledge of core python and this is the best course and there is high demand for this course.",
-    duration: "3 Hour",
+    duration: 9,
     image_url: "ProgLang/python.png",
     link: "https://www.w3schools.com/php/",
     topics: [
@@ -315,9 +293,7 @@ export const courseData = [
       "Python Superglobals",
       "Python RegEx",
     ],
-    created_at: null,
-    updated_at: "2025-11-12T18:49:25.191Z",
-    deleted_at: null,
+    
   },
 ];
 export const rolesData = [{ name: "User" }, { name: "Admin" }];

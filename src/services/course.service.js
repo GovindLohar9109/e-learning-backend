@@ -5,14 +5,35 @@ export default class CourseService {
   static async addToMyCourse({ course_id, user_id }) {
     course_id = Number(course_id);
     user_id = Number(user_id);
-
     try {
-      await CourseService.prisma.users_courses.create({
-        data: { course_id, user_id },
-      });
-      return { status: true, msg: "Course Added to MyCourses ..." };
+      let  result=await CourseService.prisma.users_courses.findFirst({
+          where: {user_id: Number(user_id),
+            course_id: Number(course_id)
+      }
+      })
+      
+      if(result){
+        return {status:false,msg:"Course is already added..."}
+      }
+      
+      result=await CourseService.prisma.users_courses.create({data: { course_id, user_id }});
+      return { status: true, msg: "Course Added to My Course" };
     } catch (err) {
-      return { status: false, msg: "Courses is not Added..." };
+      
+      throw new Error("Failed to add course to my course")
+    }
+  }
+  static async addCourse(course) {
+    
+    try {
+      
+      await CourseService.prisma.courses.create({
+        data:course
+      })
+      return { status: true, msg: "Added new course" };
+    } catch (err) {
+     
+      throw new Error("Failed to add new course ")
     }
   }
   static async deleteCourse({ course_id }) {
@@ -27,11 +48,12 @@ export default class CourseService {
     }
   }
   static async editCourse(course_id, course) {
+   
     try {
       await CourseService.prisma.courses.update({
         where: { id: Number(course_id) },
         data: {
-          ...course,
+          name:course.name,duration:Number(course.duration),
           updated_at: new Date(),
         },
       });
@@ -41,6 +63,7 @@ export default class CourseService {
     }
   }
   static async getAllCourses({ search }) {
+    
     search = search?.replace(/"/g, "").trim();
     try {
       var result = await CourseService.prisma.courses.findMany({
@@ -52,6 +75,7 @@ export default class CourseService {
           },
         },
       });
+     
       return result;
     } catch (err) {
       return [];
@@ -114,6 +138,7 @@ export default class CourseService {
           },
         },
       });
+      
       return result;
     } catch (err) {
       return [];

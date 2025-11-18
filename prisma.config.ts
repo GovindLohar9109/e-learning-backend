@@ -1,4 +1,3 @@
-// Load .env file automatically
 import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 

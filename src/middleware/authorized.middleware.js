@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 export default async function authorized(req, res, next) {
   
   if (!req.user)
-    return res.status(401).json({ status: true, msg: "Unauthorized User" });
+    return res.status(401).json({ status: false, msg: "Unauthorized user" });
   try {
     const userWithRole = await prisma.users.findFirst({
       where: { id: Number(req.user.id) },
@@ -19,9 +19,9 @@ export default async function authorized(req, res, next) {
     });
     var role = userWithRole.user_roles[0].roles.name;
     if (role == "Admin") return next();
-    return res.status(401).json({ status: false, msg: "Authorized User" });
+    return res.status(401).json({ status: false, msg: "Unauthorized user" });
   } catch (err) {
-    console.log(err)
-    return res.status(401).json({ status: false, msg: "Unauthorized User" });
+    
+    return res.status(401).json({ status: false, msg: "Unauthorized user" });
   }
 }
