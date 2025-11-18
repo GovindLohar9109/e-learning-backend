@@ -6,7 +6,7 @@ export default class UserController {
       var result = await UserService.userLogin(data);
       res.send(result);
     } catch (err) {
-      res.send(err.message);
+      throw new Error(err.message);
     }
   }
   static async userRegister(req, res) {
@@ -15,14 +15,14 @@ export default class UserController {
       var result = await UserService.userRegister(data);
       res.send(result);
     } catch (err) {
-      res.send(err.message);
+      throw new Error(err.message);
     }
   }
   static async getUsersCount(req, res) {
     try {
       res.send(await UserService.getUsersCount());
     } catch (err) {
-      res.send(err.message);
+      throw new Error(err.message);
     }
   }
 }
