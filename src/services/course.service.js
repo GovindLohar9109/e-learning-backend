@@ -1,12 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export default class CourseService {
+  static prisma=prisma;
   static async addToMyCourse({ course_id, user_id }) {
     course_id = Number(course_id);
     user_id = Number(user_id);
 
     try {
-      await prisma.users_courses.create({
+      await CourseService.prisma.users_courses.create({
         data: { course_id, user_id },
       });
       return { status: true, msg: "Course Added to MyCourses ..." };
@@ -16,7 +17,7 @@ export default class CourseService {
   }
   static async deleteCourse({ course_id }) {
     try {
-      await prisma.courses.update({
+      await CourseService.prisma.courses.update({
         where: { id: Number(course_id) },
         data: { deleted_at: new Date() },
       });
@@ -27,7 +28,7 @@ export default class CourseService {
   }
   static async editCourse(course_id, course) {
     try {
-      await prisma.courses.update({
+      await CourseService.prisma.courses.update({
         where: { id: Number(course_id) },
         data: {
           ...course,
@@ -42,7 +43,7 @@ export default class CourseService {
   static async getAllCourses({ search }) {
     search = search?.replace(/"/g, "").trim();
     try {
-      var result = await prisma.courses.findMany({
+      var result = await CourseService.prisma.courses.findMany({
         where: {
           deleted_at: null,
           name: {
@@ -58,7 +59,7 @@ export default class CourseService {
   }
   static async getCoursesCount() {
     try {
-      var courseCount = await prisma.courses.count({
+      var courseCount = await CourseService.prisma.courses.count({
         where: { deleted_at: null },
       });
       return courseCount;
@@ -69,7 +70,7 @@ export default class CourseService {
   static async getCoursesByLimit(limit, search) {
     search = search?.replace(/"/g, "").trim();
     try {
-      var result = await prisma.courses.findMany({
+      var result = await CourseService.prisma.courses.findMany({
         where: {
           deleted_at: null,
           name: {
@@ -86,7 +87,7 @@ export default class CourseService {
   }
   static async getCoursesDetailsById({ course_id }) {
     try {
-      var result = await prisma.courses.findFirst({
+      var result = await CourseService.prisma.courses.findFirst({
         where: { id: Number(course_id) },
       });
 
@@ -98,7 +99,7 @@ export default class CourseService {
   static async getMyAllCourses(user_id, search) {
     search = search?.replace(/"/g, "").trim();
     try {
-      const result = await prisma.courses.findMany({
+      const result = await CourseService.prisma.courses.findMany({
         where: {
           name: {
             contains: search,
@@ -120,7 +121,7 @@ export default class CourseService {
   }
   static async removeMyCourse({ user_id, course_id }) {
     try {
-      await prisma.users_courses.deleteMany({
+      await CourseService.prisma.users_courses.deleteMany({
         where: {
           user_id: Number(user_id),
           course_id: Number(course_id),
