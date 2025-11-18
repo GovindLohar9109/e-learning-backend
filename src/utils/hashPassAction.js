@@ -5,13 +5,13 @@ export async function generateHashPassword(password) {
     const hash_pass = await bcrypt.hash(password, salt);
     return hash_pass;
   } catch (err) {
-    return new Error("Failed to generate Hash Password"); 
+    return new Error('Failed to generate Hash Password');
   }
 }
 export async function comparePassword(password, hashPassword) {
   try {
     const isPassMatch = await bcrypt.compare(password, hashPassword);
-    return isPassMatch; 
+    return isPassMatch;
   } catch (err) {
     throw new Error(0);
   }

@@ -6,7 +6,7 @@ async function resetRoles() {
     await prisma.roles.deleteMany();
     console.log('Roles Removed Successfully');
   } catch (err) {
-    throw new Error("Failed Reset Roles")
+    throw new Error('Failed Reset Roles');
   } finally {
     await prisma.$disconnect();
   }

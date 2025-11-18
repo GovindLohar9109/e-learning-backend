@@ -6,7 +6,7 @@ async function resetUsers() {
     await prisma.users.deleteMany();
     console.log('User Removed Successfully');
   } catch (err) {
-    throw new Error("Failed Reset Users")
+    throw new Error('Failed Reset Users');
   } finally {
     await prisma.$disconnect();
   }

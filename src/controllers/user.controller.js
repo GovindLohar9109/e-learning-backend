@@ -4,7 +4,7 @@ export default class UserController {
     try {
       var data = req.body;
       var result = await UserService.userLogin(data);
-      res.send(result)
+      res.send(result);
     } catch (err) {
       res.send(err.message);
     }
@@ -20,9 +20,9 @@ export default class UserController {
   }
   static async getUsersCount(req, res) {
     try {
-       res.send(await UserService.getUsersCount());
+      res.send(await UserService.getUsersCount());
     } catch (err) {
-       res.send(err.message);
+      res.send(err.message);
     }
   }
 }

@@ -6,7 +6,7 @@ async function resetCourses() {
     await prisma.courses.deleteMany();
     console.log('Courses Removed Successfully');
   } catch (err) {
-    throw new Error("Failed Reset Courses")
+    throw new Error('Failed Reset Courses');
   } finally {
     await prisma.$disconnect();
   }
