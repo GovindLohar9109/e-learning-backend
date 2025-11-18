@@ -1,39 +1,82 @@
-import CourseService from "../src/services/CourseService.js";
-import prismaMock from "../__mocks__/prisma.js";
+import { courseData } from "../prisma/data.js";
+import CourseService from "../services/course.service.js";
+import prismaMock from "./__mocks__/prisma.js";
 
 beforeAll(() => {
   CourseService.prisma = prismaMock;
 });
 
 describe("COURSE SERVICE", () => {
+  // addToMyCourse()
 
-   // addToMyCourse()
-  
   describe("ADD TO MY COURSE", () => {
     test("should add course successfully", async () => {
-
       prismaMock.users_courses.create.mockResolvedValue({
-        id: 1, user_id: 1, course_id: 2
+        id: 1,
+        user_id: 1,
+        course_id: 2,
       });
-      const result = await CourseService.addToMyCourse({ user_id: 1, course_id: 2 });
-     expect(prismaMock.users_courses.create).toHaveBeenCalledWith({
+      const result = await CourseService.addToMyCourse({
+        user_id: 1,
+        course_id: 2,
+      });
+      expect(prismaMock.users_courses.create).toHaveBeenCalledWith({
         data: { course_id: 2, user_id: 1 },
       });
       expect(result.status).toBe(true);
     });
 
+    test("if course is already added in my course", async () => {
+      prismaMock.users_courses.findFirst.mockResolvedValue({
+        id: 1,
+        user_id: 1,
+        course_id: 2,
+      });
+      const result = await CourseService.addToMyCourse({
+        user_id: 1,
+        course_id: 2,
+      });
+      expect(prismaMock.users_courses.findFirst).toHaveBeenCalledWith({
+        where: { course_id: 2, user_id: 1 },
+      });
+
+      expect(result.status).toBe(false);
+    });
+
     test("should fail when prisma throws error", async () => {
       prismaMock.users_courses.create.mockRejectedValue(new Error("DB error"));
 
-      const result = await CourseService.addToMyCourse({ user_id: 10, course_id: 20 });
+      const result = await CourseService.addToMyCourse({
+        user_id: 10,
+        course_id: 20,
+      });
 
       expect(result.status).toBe(false);
     });
   });
+  describe("ADD TO COURSE", () => {
+    test("should add course successfully", async () => {
+      prismaMock.courses.create.mockResolvedValue({
+        ...courseData[0],
+        id: 1,
+      });
+      const result = await CourseService.addCourse(courseData[0]);
+      expect(prismaMock.courses.create).toHaveBeenCalledWith({
+        data: courseData[0],
+      });
+      expect(result.status).toBe(true);
+    });
 
-  
+    test("should fail when prisma throws error", async () => {
+      prismaMock.courses.create.mockRejectedValue(new Error("DB error"));
+      await expect(CourseService.addCourse(courseData[0])).rejects.toThrow(
+        "Course Already Added",
+      );
+    });
+  });
+
   // deleteCourse()
-  
+
   describe("DELETE TO COURSE", () => {
     test("should soft-delete course", async () => {
       prismaMock.courses.update.mockResolvedValue({});
@@ -51,9 +94,8 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  
   // editCourse()
-  
+
   describe("EDIT TO COURSE", () => {
     test("should update the course", async () => {
       prismaMock.courses.update.mockResolvedValue({});
@@ -64,7 +106,7 @@ describe("COURSE SERVICE", () => {
         expect.objectContaining({
           where: { id: 3 },
           data: expect.objectContaining({ name: "Updated" }),
-        })
+        }),
       );
 
       expect(result.status).toBe(true);
@@ -79,9 +121,8 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  
   // getAllCourses()
-  
+
   describe("GET ALL COURSES", () => {
     test("should return filtered courses", async () => {
       prismaMock.courses.findMany.mockResolvedValue([
@@ -102,9 +143,8 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  
   // getCoursesCount()
-  
+
   describe("GET COURSE COUNT", () => {
     test("should return count", async () => {
       prismaMock.courses.count.mockResolvedValue(5);
@@ -121,9 +161,8 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  
   // getCoursesByLimit()
-  
+
   describe("GET COURSE BY LIMIT", () => {
     test("should return limited courses", async () => {
       prismaMock.courses.findMany.mockResolvedValue([{ id: 1 }]);
@@ -134,27 +173,29 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  
   // getCoursesDetailsById()
-  
+
   describe("GET COURSE DETAILS BY ID", () => {
     test("should return details", async () => {
       prismaMock.courses.findFirst.mockResolvedValue({ id: 10 });
 
-      const result = await CourseService.getCoursesDetailsById({ course_id: 10 });
+      const result = await CourseService.getCoursesDetailsById({
+        course_id: 10,
+      });
       expect(result.id).toBe(10);
     });
 
     test("should return {} on error", async () => {
       prismaMock.courses.findFirst.mockRejectedValue(new Error());
-      const result = await CourseService.getCoursesDetailsById({ course_id: 10 });
+      const result = await CourseService.getCoursesDetailsById({
+        course_id: 10,
+      });
       expect(result).toEqual({});
     });
   });
 
-  
   // getMyAllCourses()
-  
+
   describe("GET MY ALL COURSES", () => {
     test("should return user's courses", async () => {
       prismaMock.courses.findMany.mockResolvedValue([{ id: 1 }]);
@@ -163,14 +204,16 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  
   // removeMyCourse()
-  
+
   describe("REMOVE MY COURSE", () => {
     test("should delete the course", async () => {
       prismaMock.users_courses.deleteMany.mockResolvedValue({ count: 1 });
 
-      const result = await CourseService.removeMyCourse({ user_id: 1, course_id: 2 });
+      const result = await CourseService.removeMyCourse({
+        user_id: 1,
+        course_id: 2,
+      });
 
       expect(result.status).toBe(true);
     });
@@ -178,10 +221,12 @@ describe("COURSE SERVICE", () => {
     test("should return failure message", async () => {
       prismaMock.users_courses.deleteMany.mockRejectedValue(new Error());
 
-      const result = await CourseService.removeMyCourse({ user_id: 1, course_id: 2 });
+      const result = await CourseService.removeMyCourse({
+        user_id: 1,
+        course_id: 2,
+      });
 
-      expect(result.status).toBe(true); 
+      expect(result.status).toBe(true);
     });
   });
-
 });

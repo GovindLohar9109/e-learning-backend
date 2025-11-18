@@ -1,0 +1,218 @@
+import UserService from "../services/user.service.js";
+import prismaMock from "./__mocks__/prisma.js";
+
+// Mock helper functions
+import {
+  comparePassword,
+  generateHashPassword,
+} from "../utils/hashPassAction.js";
+import { generateAccessToken } from "../utils/authTokenAction.js";
+
+jest.mock("../utils/hashPassAction.js");
+jest.mock("../utils/authTokenAction.js");
+
+beforeAll(() => {
+  UserService.prisma = prismaMock;
+});
+
+describe("USER LOGIN SERVICE", () => {
+  // --------------------------------------------------------------------
+  // EDGE CASES
+  // --------------------------------------------------------------------
+  describe("TESTING EDGE CASES", () => {
+    test("when fields are empty", async () => {
+      const result = await UserService.userLogin({
+        email: "",
+        password: "",
+      });
+      expect(result.status).toBe(false);
+      expect(result.msg).toBe("Please Fill All Field...");
+    });
+
+    describe("WHEN FIELDS ARE INVALID", () => {
+      test("invalid email format", async () => {
+        const result = await UserService.userLogin({
+          email: "govind123",
+          password: "1234567",
+        });
+        expect(result.status).toBe(false);
+        expect(result.msg).toBe("Please Enter Valid Email");
+      });
+
+      test("invalid password format", async () => {
+        const result = await UserService.userLogin({
+          email: "govind123@gmail.com",
+          password: "1234567",
+        });
+        expect(result.status).toBe(false);
+        expect(result.msg).toBe("Please Enter Valid Password");
+      });
+    });
+  });
+
+  // --------------------------------------------------------------------
+  // NEGATIVE TEST CASES
+  // --------------------------------------------------------------------
+  describe("NEGATIVE TEST CASE", () => {
+    test("invalid credentials test", async () => {
+      prismaMock.users.findFirst.mockResolvedValue(null);
+
+      const result = await UserService.userLogin({
+        email: "govind0123@gmail.com",
+        password: "GGl12345567890",
+      });
+
+      expect(result.status).toBe(false);
+      expect(result.msg).toBe("Incorrect User or Password");
+    });
+  });
+
+  // --------------------------------------------------------------------
+  // POSITIVE TEST CASE
+  // --------------------------------------------------------------------
+  describe("POSITIVE TEST CASE", () => {
+    test("valid credentials test", async () => {
+      // 1st call → find user by email
+      prismaMock.users.findFirst.mockResolvedValueOnce({
+        id: 1,
+        name: "Govind",
+        email: "govind123@gmail.com",
+        password: "$2b$10$HASHEDPASSWORD",
+      });
+
+      // mock password comparison success
+      comparePassword.mockResolvedValue(true);
+
+      // 2nd call → fetch user with role
+      prismaMock.users.findFirst.mockResolvedValueOnce({
+        id: 1,
+        user_roles: [{ roles: { name: "User" } }],
+      });
+
+      generateAccessToken.mockReturnValue("fakeToken");
+
+      const result = await UserService.userLogin({
+        email: "govind123@gmail.com",
+        password: "Gl12345678",
+      });
+
+      expect(prismaMock.users.findFirst).toHaveBeenCalledWith({
+        where: { email: "govind123@gmail.com" },
+      });
+
+      expect(result.status).toBe(true);
+      expect(result.accessToken).toBe("fakeToken");
+    });
+  });
+});
+
+// ======================================================================
+// USER REGISTER SERVICE
+// ======================================================================
+describe("USER REGISTER SERVICE", () => {
+  // --------------------------------------------------------------------
+  // EDGE CASES
+  // --------------------------------------------------------------------
+  describe("Testing Edge Case", () => {
+    test("when fields are empty", async () => {
+      const result = await UserService.userRegister({
+        name: "",
+        email: "",
+        password: "",
+      });
+
+      expect(result.status).toBe(false);
+      expect(result.msg).toBe("Please Fill All Field...");
+    });
+
+    describe("when fields are invalid", () => {
+      test("when name is invalid", async () => {
+        const result = await UserService.userRegister({
+          name: "<script>",
+          email: "govind123@gmail.com",
+          password: "Gl12345678",
+        });
+
+        expect(result.status).toBe(false);
+        expect(result.msg).toBe("Please Enter Valid Name");
+      });
+
+      test("when email is invalid", async () => {
+        const result = await UserService.userRegister({
+          name: "Govind",
+          email: "govind123",
+          password: "Gl12345678",
+        });
+
+        expect(result.status).toBe(false);
+        expect(result.msg).toBe("Please Enter Valid Email");
+      });
+
+      test("when password is invalid", async () => {
+        const result = await UserService.userRegister({
+          name: "Govind",
+          email: "govind123@gmail.com",
+          password: "1234567",
+        });
+
+        expect(result.status).toBe(false);
+        expect(result.msg).toBe("Please Enter Valid Password");
+      });
+    });
+  });
+
+  // --------------------------------------------------------------------
+  // NEGATIVE TEST CASE
+  // --------------------------------------------------------------------
+  describe("NEGATIVE TEST CASE", () => {
+    test("when user already exists", async () => {
+      prismaMock.users.findFirst.mockResolvedValue({ id: 1 });
+
+      const result = await UserService.userRegister({
+        name: "Govind",
+        email: "govind123@gmail.com",
+        password: "Gl12345678",
+      });
+
+      expect(result.status).toBe(false);
+      expect(result.msg).toBe("User Already Registered...");
+    });
+  });
+
+  // --------------------------------------------------------------------
+  // POSITIVE TEST CASE
+  // --------------------------------------------------------------------
+  describe("POSITIVE TEST CASE", () => {
+    test("when user is not present", async () => {
+      prismaMock.users.findFirst.mockResolvedValue(null);
+
+      generateHashPassword.mockResolvedValue("hashedPassword");
+
+      prismaMock.users.create.mockResolvedValue({
+        id: 10,
+        name: "Rakesh",
+        email: "govind0123@gmail.com",
+        password: "hashedPassword",
+      });
+
+      prismaMock.roles.findFirst.mockResolvedValue({
+        id: 1,
+        name: "User",
+      });
+
+      prismaMock.user_roles.create.mockResolvedValue({});
+
+      generateAccessToken.mockReturnValue("token123");
+
+      const result = await UserService.userRegister({
+        name: "Rakesh",
+        email: "govind0123@gmail.com",
+        password: "Gl12345678",
+      });
+
+      expect(result.status).toBe(true);
+      expect(result.msg).toBe("User Registered");
+      expect(result.accessToken).toBe("token123");
+    });
+  });
+});

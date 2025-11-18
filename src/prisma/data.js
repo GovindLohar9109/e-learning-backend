@@ -29,7 +29,6 @@ export const courseData = [
       "Java Superglobals",
       "Java RegEx",
     ],
-    
   },
   {
     name: "Learn High-Level-Design",
@@ -46,7 +45,6 @@ export const courseData = [
       "LLD Prerequisite For HLD",
       "How To Design Scalable High-level Design (HLD) Systems",
     ],
-   
   },
   {
     name: "Learn Low-Level-Design",
@@ -62,7 +60,6 @@ export const courseData = [
       "Design Patterns",
       "Problem on LLD",
     ],
-    
   },
   {
     name: "Learn Object-Oriented-Programming WITH C++",
@@ -84,7 +81,6 @@ export const courseData = [
       "C++ Abstraction",
       "C++ Interface",
     ],
-   
   },
   {
     name: "Learn Object-Oriented-Programming WITH Java",
@@ -106,7 +102,6 @@ export const courseData = [
       "Java Abstraction",
       "Java Interface",
     ],
-   
   },
   {
     name: "Learn Computer Network",
@@ -128,7 +123,6 @@ export const courseData = [
       "Routing",
       "Application Layer:DNS",
     ],
-   
   },
   {
     name: "Learn Computer Network",
@@ -148,7 +142,6 @@ export const courseData = [
       "Indexing, B and B+ trees",
       "File organization",
     ],
-    
   },
   {
     name: "Learn PHP Core",
@@ -180,7 +173,6 @@ export const courseData = [
       "PHP Superglobals",
       "PHP RegEx",
     ],
-    
   },
   {
     name: "Learn Operating System",
@@ -197,7 +189,6 @@ export const courseData = [
       "Types of Operating Systems",
       "How to Choose the Operating System?",
     ],
-   
   },
   {
     name: "Learn Core C",
@@ -229,7 +220,6 @@ export const courseData = [
       "C++ Superglobals",
       "C++ RegEx",
     ],
-    
   },
   {
     name: "Learn Core C",
@@ -261,7 +251,6 @@ export const courseData = [
       "C Superglobals",
       "C RegEx",
     ],
-    
   },
   {
     name: "Learn Core Python",
@@ -293,7 +282,6 @@ export const courseData = [
       "Python Superglobals",
       "Python RegEx",
     ],
-    
   },
 ];
 export const rolesData = [{ name: "User" }, { name: "Admin" }];

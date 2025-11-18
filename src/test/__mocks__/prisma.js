@@ -1,4 +1,4 @@
-import {mockDeep} from "jest-mock-extended";
+import { mockDeep } from "jest-mock-extended";
 
-const prismaMock=mockDeep();
+const prismaMock = mockDeep();
 export default prismaMock;

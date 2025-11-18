@@ -1,39 +1,81 @@
 import UserService from "../services/user.service.js";
+
 export default class UserController {
   static async userLogin(req, res) {
-    var data = req.body;
-    var result = await UserService.userLogin(data);
+    try {
+      const result = await UserService.userLogin(req.body);
 
-    if (!result.status) return res.send(result);
-    res.cookie("accessToken", result.accessToken, {
-      maxAge: 4 * 60 * 60 * 1000,
-    });
+      if (!result.status) {
+        return res.status(401).send(result);
+      }
 
-    return res
-      .status(200)
-      .send({ status: true, msg: result.msg, role: result.role });
+      res.cookie("accessToken", result.accessToken, {
+        maxAge: 4 * 60 * 60 * 1000,
+      });
+      return res.status(200).send({
+        status: true,
+        msg: result.msg,
+        role: result.role,
+      });
+    } catch (err) {
+      return res.status(500).send({
+        status: false,
+        msg: "Internal Server Error",
+      });
+    }
   }
+
   static async userRegister(req, res) {
-    var data = req.body;
-    var result = await UserService.userRegister(data);
+    try {
+      var data = req.body;
+      var result = await UserService.userRegister(data);
 
-    if (!result.status) return res.send(result);
-    res.cookie("accessToken", result.accessToken, {
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+      if (!result.status) return res.status(401).send(result);
+      res.cookie("accessToken", result.accessToken, {
+        maxAge: 24 * 60 * 60 * 1000,
+      });
 
-    return res
-      .status(200)
-      .send({ status: true, msg: result.msg, role: result.role });
+      return res.status(200).send({
+        status: true,
+        msg: result.msg,
+        role: result.role,
+      });
+    } catch (err) {
+      return res.status(500).send({
+        status: false,
+        msg: "Internal Server Error",
+      });
+    }
   }
   static async getUser(req, res) {
-    res.status(200).json(await UserService.getUser(req.user.id));
+    try {
+      res.status(200).json(await UserService.getUser(req.user.id));
+    } catch (err) {
+      return res.status(500).send({
+        status: false,
+        msg: "Internal Server Error",
+      });
+    }
   }
   static async getUsersCount(_, res) {
-    res.send(await UserService.getUsersCount());
+    try {
+      res.status(200).send(await UserService.getUsersCount());
+    } catch (err) {
+      return res.status(500).send({
+        status: false,
+        msg: "Internal Server Error",
+      });
+    }
   }
   static async userLogout(req, res) {
-    res.clearCookie("accessToken");
-    res.status(200).json({ status: true, msg: "Logout" });
+    try {
+      res.clearCookie("accessToken");
+      res.status(200).json({ status: true, msg: "Logout" });
+    } catch (err) {
+      return res.status(500).send({
+        status: false,
+        msg: "Internal Server Error",
+      });
+    }
   }
 }

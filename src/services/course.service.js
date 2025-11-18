@@ -1,39 +1,36 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export default class CourseService {
-  static prisma=prisma;
+  static prisma = prisma;
   static async addToMyCourse({ course_id, user_id }) {
     course_id = Number(course_id);
     user_id = Number(user_id);
     try {
-      let  result=await CourseService.prisma.users_courses.findFirst({
-          where: {user_id: Number(user_id),
-            course_id: Number(course_id)
+      let result = await CourseService.prisma.users_courses.findFirst({
+        where: { user_id: Number(user_id), course_id: Number(course_id) },
+      });
+
+      if (result) {
+        return { status: false, msg: "Course is already added..." };
       }
-      })
-      
-      if(result){
-        return {status:false,msg:"Course is already added..."}
-      }
-      
-      result=await CourseService.prisma.users_courses.create({data: { course_id, user_id }});
+
+      result = await CourseService.prisma.users_courses.create({
+        data: { course_id, user_id },
+      });
       return { status: true, msg: "Course Added to My Course" };
     } catch (err) {
-      
-      throw new Error("Failed to add course to my course")
+      return { status: false, msg: "Server Error" };
     }
   }
+
   static async addCourse(course) {
-    
     try {
-      
       await CourseService.prisma.courses.create({
-        data:course
-      })
+        data: course,
+      });
       return { status: true, msg: "Added new course" };
     } catch (err) {
-     
-      throw new Error("Failed to add new course ")
+      return { status: false, msg: "Server Error" };
     }
   }
   static async deleteCourse({ course_id }) {
@@ -44,26 +41,25 @@ export default class CourseService {
       });
       return { status: true, msg: "Course Deleted..." };
     } catch (err) {
-      return { status: false, msg: "Course Not Deleted..." };
+      return { status: false, msg: "Server Error" };
     }
   }
   static async editCourse(course_id, course) {
-   
     try {
       await CourseService.prisma.courses.update({
         where: { id: Number(course_id) },
         data: {
-          name:course.name,duration:Number(course.duration),
+          name: course.name,
+          duration: Number(course.duration),
           updated_at: new Date(),
         },
       });
       return { status: true, msg: "Course Update..." };
     } catch (err) {
-      return { status: false, msg: "Course Not Updated..." };
+      return { status: false, msg: "Server Error" };
     }
   }
   static async getAllCourses({ search }) {
-    
     search = search?.replace(/"/g, "").trim();
     try {
       var result = await CourseService.prisma.courses.findMany({
@@ -75,10 +71,10 @@ export default class CourseService {
           },
         },
       });
-     
+
       return result;
     } catch (err) {
-      return [];
+      return { status: false, msg: "Server Error" };
     }
   }
   static async getCoursesCount() {
@@ -88,7 +84,7 @@ export default class CourseService {
       });
       return courseCount;
     } catch (err) {
-      return 0;
+      return { status: false, msg: "Server Error" };
     }
   }
   static async getCoursesByLimit(limit, search) {
@@ -106,7 +102,7 @@ export default class CourseService {
       });
       return result;
     } catch (err) {
-      return [];
+      return { status: false, msg: "Server Error" };
     }
   }
   static async getCoursesDetailsById({ course_id }) {
@@ -117,7 +113,7 @@ export default class CourseService {
 
       return result;
     } catch (err) {
-      return {};
+      return { status: false, msg: "Server Error" };
     }
   }
   static async getMyAllCourses(user_id, search) {
@@ -138,10 +134,10 @@ export default class CourseService {
           },
         },
       });
-      
+
       return result;
     } catch (err) {
-      return [];
+      return { status: false, msg: "Server Error" };
     }
   }
   static async removeMyCourse({ user_id, course_id }) {
@@ -154,12 +150,9 @@ export default class CourseService {
         },
       });
 
-     
-
-      return { status: true, msg: "MyCourse Deleted..." };
+      return { status: true, msg: "My Course Deleted..." };
     } catch (err) {
-     
-      return { status: true, msg: "MyCourse Not Deleted..." };
+      return { status: false, msg: "Server Error" };
     }
   }
 }

@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export default async function authorized(req, res, next) {
-  
   if (!req.user)
     return res.status(401).json({ status: false, msg: "Unauthorized user" });
   try {
@@ -21,7 +20,6 @@ export default async function authorized(req, res, next) {
     if (role == "Admin") return next();
     return res.status(401).json({ status: false, msg: "Unauthorized user" });
   } catch (err) {
-    
     return res.status(401).json({ status: false, msg: "Unauthorized user" });
   }
 }
