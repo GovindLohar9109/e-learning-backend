@@ -6,7 +6,7 @@ export default class UserController {
       const result = await UserService.userLogin(req.body);
 
       if (!result.status) {
-        return res.status(401).send(result);
+        return res.status(200).send(result);
       }
 
       res.cookie("accessToken", result.accessToken, {
@@ -30,7 +30,7 @@ export default class UserController {
       var data = req.body;
       var result = await UserService.userRegister(data);
 
-      if (!result.status) return res.status(401).send(result);
+      if (!result.status) return res.status(200).send(result);
       res.cookie("accessToken", result.accessToken, {
         maxAge: 24 * 60 * 60 * 1000,
       });

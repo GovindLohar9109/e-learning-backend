@@ -137,6 +137,7 @@ export default class CourseService {
 
       return result;
     } catch (err) {
+      console.log(err)
       return { status: false, msg: "Server Error" };
     }
   }
