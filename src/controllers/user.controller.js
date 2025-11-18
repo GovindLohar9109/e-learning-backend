@@ -4,9 +4,9 @@ export default class UserController {
     try {
       var data = req.body;
       var result = await UserService.userLogin(data);
-      res.send(result);
+      res.send(result)
     } catch (err) {
-      throw new Error(`Login Failed: ${err.message}`);
+      res.send(err.message);
     }
   }
   static async userRegister(req, res) {
@@ -15,14 +15,14 @@ export default class UserController {
       var result = await UserService.userRegister(data);
       res.send(result);
     } catch (err) {
-      throw new Error(`Register Failed: ${err.message}`);
+      res.send(err.message);
     }
   }
   static async getUsersCount(req, res) {
     try {
-      return res.send(await UserService.getUsersCount());
+       res.send(await UserService.getUsersCount());
     } catch (err) {
-      return new Error('Failed to get User Count');
+       res.send(err.message);
     }
   }
 }

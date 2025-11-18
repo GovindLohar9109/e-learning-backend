@@ -34,10 +34,10 @@ export default class UserService {
         };
         return { status: true, msg: 'User Registered...', token, user };
       } else {
-        return { status: true, msg: 'User Already Registered...' };
+        throw new Error("User Already Registered")
       }
     } catch (err) {
-      throw new Error(`Register Failed: ${err.message}`);
+      throw new Error({status:false,msg:err.message});
     }
   }
   static async userLogin(data) {
@@ -69,20 +69,16 @@ export default class UserService {
           };
           return { status: true, msg: 'User LoggedIn...', token, user: user };
         } else {
-          return { status: true, msg: 'Incorrect User or Password' };
+          throw new Error('Incorrect User or Password' );
         }
-      } else {
-        return { status: true, msg: 'Incorrect User or Password' };
-      }
-    } catch (err) {
-      throw new Error(`Login Failed: ${err.message}`);
-    }
+      } else throw new Error('Incorrect User or Password' );
+    } catch (err){throw new Error({status:false,msg:err.message});}
   }
   static async getUsersCount() {
     try {
       return await prisma.users.count();
     } catch (err) {
-      return new Error('Failed to get User Count');
+      return new Error(0);
     }
   }
 }

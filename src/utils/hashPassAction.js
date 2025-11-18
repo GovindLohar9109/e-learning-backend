@@ -5,16 +5,14 @@ export async function generateHashPassword(password) {
     const hash_pass = await bcrypt.hash(password, salt);
     return hash_pass;
   } catch (err) {
-    console.error('Error generating hash:', err);
-    return null; // better than returning undefined
+    return new Error("Failed to generate Hash Password"); 
   }
 }
 export async function comparePassword(password, hashPassword) {
   try {
     const isPassMatch = await bcrypt.compare(password, hashPassword);
-    return isPassMatch; // returns true or false
+    return isPassMatch; 
   } catch (err) {
-    console.error('Error comparing password:', err);
-    return false;
+    throw new Error(0);
   }
 }

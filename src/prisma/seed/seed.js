@@ -61,7 +61,7 @@ export default class SeedInitial {
         });
       });
     } catch (err) {
-      console.error('Seeding Error:', err);
+      throw Error("Failed SeedingIntial")
     } finally {
       await prisma.$disconnect();
     }
