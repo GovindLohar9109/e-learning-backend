@@ -7,4 +7,5 @@ router.delete("/courses/:course_id", CourseController.deleteCourse);
 router.get("/courses", CourseController.getAllCourses);router.post("/courses", CourseController.addCourse);router.get("courses/limit/:limit",CourseController.getCoursesByLimit)
 router.post("/mycourses/:course_id/:user_id", CourseController.addToMyCourse);
 router.get("/mycourses/:user_id", CourseController.getMyAllCourses);
-router.delete("/mycourses/:course_id/:user_id", CourseController.removeMyCourse);export default router;
+router.delete("/mycourses/:course_id/:user_id", CourseController.removeMyCourse);
+export default router;
