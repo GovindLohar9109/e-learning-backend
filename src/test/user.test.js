@@ -1,7 +1,7 @@
 import UserService from "../services/user.service.js";
 import prismaMock from "./__mocks__/prisma.js";
 
-// Mock helper functions
+
 import {
   comparePassword,
   generateHashPassword,
@@ -16,9 +16,7 @@ beforeAll(() => {
 });
 
 describe("USER LOGIN SERVICE", () => {
-  // --------------------------------------------------------------------
-  // EDGE CASES
-  // --------------------------------------------------------------------
+  
   describe("TESTING EDGE CASES", () => {
     test("when fields are empty", async () => {
       const result = await UserService.userLogin({
@@ -50,9 +48,7 @@ describe("USER LOGIN SERVICE", () => {
     });
   });
 
-  // --------------------------------------------------------------------
-  // NEGATIVE TEST CASES
-  // --------------------------------------------------------------------
+ 
   describe("NEGATIVE TEST CASE", () => {
     test("invalid credentials test", async () => {
       prismaMock.users.findFirst.mockResolvedValue(null);
@@ -67,12 +63,10 @@ describe("USER LOGIN SERVICE", () => {
     });
   });
 
-  // --------------------------------------------------------------------
-  // POSITIVE TEST CASE
-  // --------------------------------------------------------------------
+ 
   describe("POSITIVE TEST CASE", () => {
     test("valid credentials test", async () => {
-      // 1st call → find user by email
+     
       prismaMock.users.findFirst.mockResolvedValueOnce({
         id: 1,
         name: "Govind",
@@ -80,10 +74,9 @@ describe("USER LOGIN SERVICE", () => {
         password: "$2b$10$HASHEDPASSWORD",
       });
 
-      // mock password comparison success
+      
       comparePassword.mockResolvedValue(true);
 
-      // 2nd call → fetch user with role
       prismaMock.users.findFirst.mockResolvedValueOnce({
         id: 1,
         user_roles: [{ roles: { name: "User" } }],
@@ -106,13 +99,9 @@ describe("USER LOGIN SERVICE", () => {
   });
 });
 
-// ======================================================================
-// USER REGISTER SERVICE
-// ======================================================================
+
 describe("USER REGISTER SERVICE", () => {
-  // --------------------------------------------------------------------
-  // EDGE CASES
-  // --------------------------------------------------------------------
+  
   describe("Testing Edge Case", () => {
     test("when fields are empty", async () => {
       const result = await UserService.userRegister({
@@ -161,9 +150,7 @@ describe("USER REGISTER SERVICE", () => {
     });
   });
 
-  // --------------------------------------------------------------------
-  // NEGATIVE TEST CASE
-  // --------------------------------------------------------------------
+  
   describe("NEGATIVE TEST CASE", () => {
     test("when user already exists", async () => {
       prismaMock.users.findFirst.mockResolvedValue({ id: 1 });
@@ -179,9 +166,7 @@ describe("USER REGISTER SERVICE", () => {
     });
   });
 
-  // --------------------------------------------------------------------
-  // POSITIVE TEST CASE
-  // --------------------------------------------------------------------
+  
   describe("POSITIVE TEST CASE", () => {
     test("when user is not present", async () => {
       prismaMock.users.findFirst.mockResolvedValue(null);
