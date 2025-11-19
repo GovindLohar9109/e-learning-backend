@@ -2,7 +2,7 @@ export const courseData = [
   {
     name: "Learn Core Java",
     description:
-      "This course will provide you in depth knowledge of core java and this is the best course and there is high demand for this course.",
+      "This course will provide in-depth knowledge of Core Java. It is one of the most in-demand programming languages.",
     duration: 3,
     image_url: "ProgLang/java.png",
     link: "https://www.w3schools.com/java/",
@@ -18,60 +18,62 @@ export const courseData = [
       "Java Numbers",
       "Java Casting",
       "Java Math",
-      "Java Constraint",
-      "Java Magic Constraint",
+      "Java Constants",
+      "Java Magic Constants",
       "Java Operators",
       "Java If...Else...Elseif",
       "Java Switch",
       "Java Loops",
       "Java Functions",
       "Java Arrays",
-      "Java Superglobals",
-      "Java RegEx",
+      "Java RegEx"
     ],
   },
+
   {
-    name: "Learn High-Level-Design",
+    name: "Learn High-Level Design (HLD)",
     description:
-      "This course will provide you in depth knowledge of Low-Level-Design and this is the best course and there is high demand for this course.",
+      "This course provides in-depth knowledge of High-Level System Design, its components, and scalable architecture principles.",
     duration: 4,
     image_url: "SystemDesign/hld.png",
     link: "https://www.geeksforgeeks.org/what-is-high-level-design-learn-system-design/",
     topics: [
-      "What is High Level Design ",
+      "What is High Level Design?",
       "Components of High-Level Design",
-      "What is High-Level Design Document?",
-      "How HLD is different from LLD",
-      "LLD Prerequisite For HLD",
-      "How To Design Scalable High-level Design (HLD) Systems",
+      "High-Level Design Document",
+      "Difference Between HLD and LLD",
+      "LLD Prerequisites for HLD",
+      "How to Design Scalable High-Level Systems"
     ],
   },
+
   {
-    name: "Learn Low-Level-Design",
+    name: "Learn Low-Level Design (LLD)",
     description:
-      "This course will provide you in depth knowledge of Low-Level-Design and this is the best course and there is high demand for this course.",
+      "This course covers Low-Level Design, OOP fundamentals, design patterns, and real-world LLD problems.",
     duration: 5,
     image_url: "SystemDesign/lld.png",
     link: "https://www.geeksforgeeks.org/what-is-low-level-design-or-lld-learn-system-design/",
     topics: [
-      "What is Low Level Design or LLD – Learn System Design",
-      "Prerequisite OOPS Fundamentals",
-      "SOLID Principle",
+      "What is Low Level Design?",
+      "OOP Fundamentals",
+      "SOLID Principles",
       "Design Patterns",
-      "Problem on LLD",
+      "LLD Practice Problems"
     ],
   },
+
   {
-    name: "Learn Object-Oriented-Programming WITH C++",
+    name: "Object-Oriented Programming with C++",
     description:
-      "This course will provide you in depth knowledge of Object-Oriented-Programming and this is the best course and there is high demand for this course.",
+      "Master Object-Oriented Programming using C++ with concepts like classes, inheritance, abstraction, and interfaces.",
     duration: 3,
-    image_url: "SystemDesign/oopswithc++.png",
+    image_url: "ProgLang/oopswithcpp.png",
     link: "https://www.w3schools.com/cpp/cpp_oop.asp",
     topics: [
-      " C++ What is OOP?",
-      "C++ Classes/Objects",
-      "C++ Class Methods",
+      "C++ OOP Introduction",
+      "C++ Classes and Objects",
+      "C++ Methods",
       "C++ Constructors",
       "C++ Access Specifiers",
       "C++ Encapsulation",
@@ -79,18 +81,19 @@ export const courseData = [
       "C++ Inheritance",
       "C++ Inner Classes",
       "C++ Abstraction",
-      "C++ Interface",
+      "C++ Interface"
     ],
   },
+
   {
-    name: "Learn Object-Oriented-Programming WITH Java",
+    name: "Object-Oriented Programming with Java",
     description:
-      "This course will provide you in depth knowledge of Object-Oriented-Programming and this is the best course and there is high demand for this course.",
+      "Learn Object-Oriented Programming concepts using Java including classes, inheritance, abstraction, and interfaces.",
     duration: 4,
-    image_url: "SystemDesign/oopswithjava.png",
+    image_url: "ProgLang/oopswithjava.png",
     link: "https://www.w3schools.com/java/java_oop.asp",
     topics: [
-      " What is OOP?",
+      "What is OOP?",
       "Java Classes and Objects",
       "Java Class Attributes",
       "Java Constructors",
@@ -100,53 +103,56 @@ export const courseData = [
       "Java Inheritance",
       "Java Inner Classes",
       "Java Abstraction",
-      "Java Interface",
+      "Java Interface"
     ],
   },
+
   {
-    name: "Learn Computer Network",
+    name: "Learn Computer Networks",
     description:
-      "This course will provide you in depth knowledge of Computer Network and this is the best course and there is high demand for this course.",
+      "A complete guide to Computer Networking concepts including OSI Model, TCP/IP, routing, DNS, and more.",
     duration: 10,
     image_url: "CSFunda/cn.png",
     link: "https://www.geeksforgeeks.org/computer-network-tutorials/",
     topics: [
-      "Basics of Computer Network",
+      "Basics of Computer Networks",
       "Network Hardware and Software",
       "Network Topology",
-      "OSI Mode",
+      "OSI Model",
       "Protocols",
       "TCP/IP Model",
       "Medium Access Control",
-      "SLIDING WINDOW PROTOCOLS",
+      "Sliding Window Protocols",
       "IP Addressing",
       "Routing",
-      "Application Layer:DNS",
+      "Application Layer: DNS"
     ],
   },
+
   {
-    name: "Learn Computer Network",
+    name: "Learn DBMS (Database Management System)",
     description:
-      "This course will provide you in depth knowledge of Mangement System and this is the best course and there is high demand for this course.",
+      "This course provides full knowledge of Database Management Systems including ER models, normalization, and indexing.",
     duration: 9,
     image_url: "CSFunda/dbms.png",
     link: "https://www.geeksforgeeks.org/dbms/",
     topics: [
-      "Basic of DBMS",
+      "Basics of DBMS",
       "Entity Relationship Model",
       "Relational Model",
       "Relational Algebra",
       "Functional Dependencies",
-      "Normalisation",
+      "Normalization",
       "Transactions and Concurrency Control",
-      "Indexing, B and B+ trees",
-      "File organization",
+      "Indexing: B and B+ Trees",
+      "File Organization"
     ],
   },
+
   {
-    name: "Learn PHP Core",
+    name: "Learn Core PHP",
     description:
-      "This course will provide you in depth knowledge of core PHP and this is the best course and there is high demand for this course.",
+      "Learn fundamental PHP programming concepts, syntax, functions, and server-side scripting.",
     duration: 8,
     image_url: "ProgLang/php.png",
     link: "https://www.w3schools.com/php/",
@@ -162,8 +168,8 @@ export const courseData = [
       "PHP Numbers",
       "PHP Casting",
       "PHP Math",
-      "PHP Constraint",
-      "PHP Magic Constraint",
+      "PHP Constants",
+      "PHP Magic Constants",
       "PHP Operators",
       "PHP If...Else...Elseif",
       "PHP Switch",
@@ -171,32 +177,34 @@ export const courseData = [
       "PHP Functions",
       "PHP Arrays",
       "PHP Superglobals",
-      "PHP RegEx",
+      "PHP RegEx"
     ],
   },
+
   {
-    name: "Learn Operating System",
+    name: "Learn Operating Systems",
     description:
-      "This course will provide you in depth knowledge of Operating System and this is the best course and there is high demand for this course.",
+      "Learn the complete fundamentals of Operating Systems: processes, scheduling, memory management, and more.",
     duration: 7,
     image_url: "CSFunda/os.png",
     link: "https://www.geeksforgeeks.org/operating-systems/",
     topics: [
       "What is an Operating System?",
-      "What is an Operating System Used for?",
-      "Functions of the Operating System",
+      "Uses of Operating Systems",
+      "Functions of an Operating System",
       "Objectives of Operating Systems",
       "Types of Operating Systems",
-      "How to Choose the Operating System?",
+      "Choosing an Operating System"
     ],
   },
+
   {
-    name: "Learn Core C",
+    name: "Learn Core C++",
     description:
-      "This course will provide you in depth knowledge of core C++ and this is the best course and there is high demand for this course.",
+      "Learn all important basic concepts of Core C++ programming.",
     duration: 8,
-    image_url: "ProgLang/c++.png",
-    link: "https://www.w3schools.com/php/",
+    image_url: "ProgLang/cpp.png",
+    link: "https://www.w3schools.com/cpp/",
     topics: [
       "C++ Home",
       "C++ Install",
@@ -209,25 +217,25 @@ export const courseData = [
       "C++ Numbers",
       "C++ Casting",
       "C++ Math",
-      "C++ Constraint",
-      "C++ Magic Constraint",
+      "C++ Constants",
+      "C++ Magic Constants",
       "C++ Operators",
       "C++ If...Else...Elseif",
       "C++ Switch",
       "C++ Loops",
       "C++ Functions",
       "C++ Arrays",
-      "C++ Superglobals",
-      "C++ RegEx",
+      "C++ RegEx"
     ],
   },
+
   {
     name: "Learn Core C",
     description:
-      "This course will provide you in depth knowledge of core C and this is the best course and there is high demand for this course.",
+      "A complete guide to C programming fundamentals, syntax, variables, loops, and functions.",
     duration: 7,
     image_url: "ProgLang/c.png",
-    link: "https://www.w3schools.com/php/",
+    link: "https://www.w3schools.com/c/",
     topics: [
       "C Home",
       "C Install",
@@ -240,48 +248,46 @@ export const courseData = [
       "C Numbers",
       "C Casting",
       "C Math",
-      "C Constraint",
-      "C Magic Constraint",
+      "C Constants",
+      "C Magic Constants",
       "C Operators",
       "C If...Else...Elseif",
       "C Switch",
       "C Loops",
       "C Functions",
       "C Arrays",
-      "C Superglobals",
-      "C RegEx",
+      "C RegEx"
     ],
   },
+
   {
     name: "Learn Core Python",
     description:
-      "This course will provide you in depth knowledge of core python and this is the best course and there is high demand for this course.",
+      "Learn the fundamentals of Python programming including syntax, functions, loops, and more.",
     duration: 9,
     image_url: "ProgLang/python.png",
-    link: "https://www.w3schools.com/php/",
+    link: "https://www.w3schools.com/python/",
     topics: [
       "Python Home",
       "Python Install",
       "Python Syntax",
       "Python Comments",
       "Python Variables",
-      "Python Echo/Print",
+      "Python Print",
       "Python Datatype",
       "Python String",
       "Python Numbers",
       "Python Casting",
       "Python Math",
-      "Python Constraint",
-      "Python Magic Constraint",
+      "Python Constants",
       "Python Operators",
       "Python If...Else...Elseif",
-      "Python Switch",
       "Python Loops",
       "Python Functions",
       "Python Arrays",
-      "Python Superglobals",
-      "Python RegEx",
+      "Python RegEx"
     ],
   },
 ];
+
 export const rolesData = [{ name: "User" }, { name: "Admin" }];

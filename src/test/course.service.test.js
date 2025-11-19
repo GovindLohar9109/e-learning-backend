@@ -7,7 +7,7 @@ beforeAll(() => {
 });
 
 describe("COURSE SERVICE", () => {
-  // addToMyCourse()
+ 
 
   describe("ADD TO MY COURSE", () => {
     test("should add course successfully", async () => {
@@ -75,7 +75,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // deleteCourse()
+  
 
   describe("DELETE TO COURSE", () => {
     test("should soft-delete course", async () => {
@@ -94,7 +94,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // editCourse()
+  
 
   describe("EDIT TO COURSE", () => {
     test("should update the course", async () => {
@@ -121,7 +121,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // getAllCourses()
+  
 
   describe("GET ALL COURSES", () => {
     test("should return filtered courses", async () => {
@@ -143,7 +143,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // getCoursesCount()
+  
 
   describe("GET COURSE COUNT", () => {
     test("should return count", async () => {
@@ -161,7 +161,6 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // getCoursesByLimit()
 
   describe("GET COURSE BY LIMIT", () => {
     test("should return limited courses", async () => {
@@ -173,7 +172,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // getCoursesDetailsById()
+
 
   describe("GET COURSE DETAILS BY ID", () => {
     test("should return details", async () => {
@@ -194,7 +193,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // getMyAllCourses()
+ 
 
   describe("GET MY ALL COURSES", () => {
     test("should return user's courses", async () => {
@@ -204,7 +203,7 @@ describe("COURSE SERVICE", () => {
     });
   });
 
-  // removeMyCourse()
+
 
   describe("REMOVE MY COURSE", () => {
     test("should delete the course", async () => {

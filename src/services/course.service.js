@@ -15,7 +15,7 @@ export default class CourseService {
       }
 
       result = await CourseService.prisma.users_courses.create({
-        data: { course_id, user_id },
+        data: { course_id:Number(course_id), user_id:Number(user_id) },
       });
       return { status: true, msg: "Course Added to My Course" };
     } catch (err) {
@@ -117,6 +117,7 @@ export default class CourseService {
     }
   }
   static async getMyAllCourses(user_id, search) {
+    console.log(user_id)
     search = search?.replace(/"/g, "").trim();
     try {
       const result = await CourseService.prisma.courses.findMany({
