@@ -21,16 +21,7 @@ model Course {
   @@index([name, deleted_at], map: "course_name_index")
   @@map("courses")
 }
-model Feedback {
-  id         Int       @id(map: "feedback_pkey1") @default(autoincrement())
-  user_id    Int
-  message    String    @db.VarChar(255)
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime  @default(now()) @db.Timestamptz(6)
-  deleted_at DateTime? @db.Timestamptz(6)
-  user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  @@map("feedbacks")
-}
+
 model Role {
   id         Int         @id @default(autoincrement())
   name       String      @unique(map: "roles_name_ukey") @db.VarChar(255)
