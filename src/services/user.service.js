@@ -41,7 +41,7 @@ export default class UserService {
         return { status: false, msg: "User Already Registered..." };
       }
     } catch (err) {
-      return { status: false, msg: "Internal Server Error..." };
+      return { status: false, msg: " Server Error..." };
     }
   }
   static async userLogin(data) {
@@ -58,7 +58,7 @@ export default class UserService {
       }
 
       const isPassMatch = await comparePassword(data.password, user.password);
-
+      
       if (!isPassMatch) {
         return { status: false, msg: "Incorrect User or Password" };
       }
