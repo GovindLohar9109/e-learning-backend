@@ -1,28 +1,51 @@
 # Node modules
 node_modules/
 
+/generated/prisma
+
+# Lock files (optional)
+package-lock.json
+yarn.lock
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
 # Environment variables
 .env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
 
-# Optional: build folder if any
+# Build output
 dist/
 build/
 
-# OS files
+# Coverage directory (if testing tools used)
+coverage/
+
+# OS-specific files
 .DS_Store
 Thumbs.db
 
 /generated/prisma
+# Editor directories and files
+.vscode/
+.idea/
+
+# Cache
+.cache/
+
+/src/generated/prisma
+
+/src/generated/prisma
