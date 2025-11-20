@@ -10,13 +10,26 @@ export default class SeedInitial {
   async seedAll() {
     try {
       await prisma.$transaction(async (tx) => {
-        for (const course of courseData) {
-          await tx.courses.upsert({
-            where: { name: course.name },
-            update: course,
-            create: course,
+       for (const course of courseData) {
+          const existing = await tx.courses.findFirst({
+            where: {
+              name: course.name,
+              deleted_at: null,
+            },
+        });
+
+        if (existing) {
+          await tx.courses.update({
+            where: { id: existing.id },
+            data: course,
+          });
+        } else {
+          await tx.courses.create({
+            data: course,
           });
         }
+}
+
 
         for (const role of rolesData) {
           await tx.roles.upsert({
@@ -49,19 +62,19 @@ export default class SeedInitial {
         await tx.user_roles.upsert({
           where: {
             user_id_role_id: {
-              user_id: admin.id,
-              role_id: role.id,
+              user_id: Number(admin.id),
+              role_id: Number(role.id),
             },
           },
           update: {},
           create: {
-            user_id: admin.id,
-            role_id: role.id,
+            user_id: Number(admin.id),
+            role_id: Number(role.id),
           },
         });
       });
     } catch (err) {
-      throw Error('Failed SeedingIntial');
+      console.log('Failed SeedingIntial',err);
     } finally {
       await prisma.$disconnect();
     }

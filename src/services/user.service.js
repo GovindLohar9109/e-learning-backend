@@ -1,86 +1,132 @@
-import { PrismaClient } from '@prisma/client';
-import {
-  generateHashPassword,
-  comparePassword,
-} from '../utils/hashPassAction.js';
-import { generateAuthToken } from '../utils/authTokenAction.js';
+import { PrismaClient } from "@prisma/client";
+import { generateHashPassword,comparePassword} from "../utils/hashPassAction.js";
+import { generateAccessToken } from "../utils/authTokenAction.js";
+
 const prisma = new PrismaClient();
 export default class UserService {
+  static prisma = prisma;
   static async userRegister(data) {
+    
     try {
-      var user = await prisma.users.findFirst({
+      var user = await UserService.prisma.users.findFirst({
         where: { email: data.email },
       });
+
       if (!user) {
         var hash_pass = await generateHashPassword(data.password);
         data.password = hash_pass;
-        user = await prisma.users.create({
-          data: data,
+        user = await UserService.prisma.users.create({
+          data: { ...data },
         });
-        var role = await prisma.roles.findFirst({
-          where: { name: 'User' },
+        var role = await UserService.prisma.roles.findFirst({
+          where: { name: "User" },
         });
-        await prisma.user_roles.create({
+        await UserService.prisma.user_roles.create({
           data: {
             user_id: user.id,
             role_id: role.id,
           },
         });
-        var token = await generateAuthToken(data.email);
-        user = {
-          user_email: data.email,
-          user_name: data.name,
-          user_role: 'User',
-        };
-        return { status: true, msg: 'User Registered...', token, user };
-      } else {
-        throw new Error('User Already Registered');
+        const accessToken = generateAccessToken({
+          id: user.id,
+          email: user.email,
+        });
+        return { status: true, accessToken, role: 1, msg: "User Registered" };
+      } 
+      else {
+        const error= new Error( "User Already Registered..." );
+        error.status=401;
+        throw error;
       }
     } catch (err) {
-      throw new Error({ status: false, msg: err.message });
+      
+       throw err;
     }
   }
   static async userLogin(data) {
+  
+
     try {
-      var user = await prisma.users.findFirst({
+      const user = await UserService.prisma.users.findFirst({
         where: { email: data.email },
       });
-      if (user) {
-        var isPassMatch = await comparePassword(data.password, user.password);
-        if (isPassMatch) {
-          var token = await generateAuthToken(data.email);
-          const userWithRole = await prisma.users.findFirst({
-            where: { id: user.id },
-            include: {
-              user_roles: {
-                include: {
-                  roles: {
-                    select: { name: true },
-                  },
-                },
-              },
-            },
-          });
-          var role = userWithRole.user_roles[0].roles.name;
-          user = {
-            user_email: user.email,
-            user_name: user.name,
-            user_role: role,
-          };
-          return { status: true, msg: 'User LoggedIn...', token, user: user };
-        } else {
-          throw new Error('Incorrect User or Password');
+
+      if (!user) {
+        { const error= new Error( "Incorrect User or Password" ); 
+          error.status=401;
+          throw error;
         }
-      } else throw new Error('Incorrect User or Password');
+      }
+
+      const isPassMatch = await comparePassword(data.password, user.password);
+
+      if (!isPassMatch) {
+        { const error= new Error( "Incorrect User or Password" ); 
+          error.status =401;
+          throw error;
+        }
+      }
+
+      const userWithRole = await UserService.prisma.users.findFirst({
+        where: { id: user.id },
+        include: {
+          user_roles: {
+            include: {
+              roles: { select: { name: true } },
+            },
+          },
+        },
+      });
+
+      const roleName = userWithRole.user_roles[0].roles.name;
+
+      const accessToken = generateAccessToken({
+        id: Number(user.id),
+        email: user.email,
+      });
+
+      return {
+        status: true,
+        accessToken,
+        role: roleName === "Admin" ? 2 : 1,
+        msg: "User Logged In",
+      };
     } catch (err) {
-      throw new Error({ status: false, msg: err.message });
+       throw err;
     }
   }
+
   static async getUsersCount() {
     try {
-      return await prisma.users.count();
+      return await UserService.prisma.users.count();
     } catch (err) {
-      return new Error(0);
+     throw new Error("something is wrong please try again");
+    }
+  }
+  static async getUser(user_id) {
+    try {
+      const user = await UserService.prisma.users.findFirst({
+        where: { id: Number(user_id) },
+      });
+      const roles = await UserService.prisma.user_roles.findFirst({
+        where: { user_id: Number(user_id) },
+        select: {
+          roles: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+      var userData = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: roles?.roles?.name,
+      };
+      return userData;
+    } catch (err) {
+       throw new Error("something is wrong please try again");
     }
   }
 }
