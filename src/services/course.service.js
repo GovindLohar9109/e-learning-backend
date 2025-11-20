@@ -117,7 +117,7 @@ export default class CourseService {
     }
   }
   static async getMyAllCourses(user_id, search) {
-    console.log(user_id)
+  
     search = search?.replace(/"/g, "").trim();
     try {
       const result = await CourseService.prisma.courses.findMany({
@@ -138,7 +138,7 @@ export default class CourseService {
 
       return result;
     } catch (err) {
-      console.log(err)
+      
       return { status: false, msg: "Server Error" };
     }
   }

@@ -19,18 +19,18 @@ class SeedInitial {
         ); 
       } 
         else { } 
-      } catch (err) {console.log(err)} 
+      } catch (err) {} 
     }
 
   async insertRoles() {
     try {
-      console.log("Inserting roles...");
+    
       await prisma.roles.createMany({
         data: rolesData,
         skipDuplicates: true,
       });
     } catch (err) {
-      console.error("Roles seed error:", err);
+     
     }
   }
 
@@ -38,7 +38,7 @@ class SeedInitial {
     try {
       const count = await prisma.users.count();
       if (count === 0) {
-        console.log("Inserting admin user...");
+       
         const hash_pass = await generateHashPassword(process.env.ADMIN_PASSWORD);
 
         const user = await prisma.users.create({
@@ -55,13 +55,13 @@ class SeedInitial {
 
         await prisma.user_roles.create({
           data: {
-            user_id: user.id,
-            role_id: role.id,
+            user_id: Number(user.id),
+            role_id: Number(role.id),
           },
         });
       }
     } catch (err) {
-      console.error("Admin seed error:", err);
+      
     }
   }
 }
@@ -74,7 +74,7 @@ async function main() {
     await seed.insertRoles();
     await seed.insertAdmin();
   } catch (err) {
-    console.error("Unexpected seed error:", err);
+    
   } finally {
     await prisma.$disconnect();
   }
