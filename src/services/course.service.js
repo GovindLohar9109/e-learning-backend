@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PrismaClient } from "../prisma/generated/client.js";
+const prisma = new PrismaClient(); 
 export default class CourseService {
   static prisma = prisma;
   static async addToMyCourse({ course_id, user_id }) {
