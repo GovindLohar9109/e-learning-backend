@@ -3,7 +3,6 @@ import { generateHashPassword,comparePassword} from "../utils/hashPassAction.js"
 import { generateAccessToken } from "../utils/authTokenAction.js";
 
 const prisma = new PrismaClient();
-
 export default class UserService {
   static prisma = prisma;
   static async userRegister(data) {
