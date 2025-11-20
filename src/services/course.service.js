@@ -11,7 +11,9 @@ export default class CourseService {
       });
 
       if (result) {
-        return { status: false, msg: "Course is already added..." };
+        const error=new Error("Course is already added...");
+        error.status=401;
+        throw error;
       }
 
       result = await CourseService.prisma.users_courses.create({
@@ -19,7 +21,7 @@ export default class CourseService {
       });
       return { status: true, msg: "Course Added to My Course" };
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+       throw new Error("something is wrong please try again");
     }
   }
 
@@ -30,7 +32,7 @@ export default class CourseService {
       });
       return { status: true, msg: "Added new course" };
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
   static async deleteCourse({ course_id }) {
@@ -41,7 +43,7 @@ export default class CourseService {
       });
       return { status: true, msg: "Course Deleted..." };
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
   static async editCourse(course_id, course) {
@@ -56,7 +58,7 @@ export default class CourseService {
       });
       return { status: true, msg: "Course Update..." };
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
   static async getAllCourses({ search }) {
@@ -74,7 +76,7 @@ export default class CourseService {
 
       return result;
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
   static async getCoursesCount() {
@@ -84,7 +86,7 @@ export default class CourseService {
       });
       return courseCount;
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
   static async getCoursesByLimit(limit, search) {
@@ -102,7 +104,7 @@ export default class CourseService {
       });
       return result;
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
   static async getCoursesDetailsById({ course_id }) {
@@ -113,7 +115,7 @@ export default class CourseService {
 
       return result;
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+     throw new Error("something is wrong please try again");
     }
   }
   static async getMyAllCourses(user_id, search) {
@@ -137,8 +139,8 @@ export default class CourseService {
 
       return result;
     } catch (err) {
-      console.log(err)
-      return { status: false, msg: "Server Error" };
+      
+      throw new Error("something is wrong please try again");
     }
   }
   static async removeMyCourse({ user_id, course_id }) {
@@ -153,7 +155,7 @@ export default class CourseService {
 
       return { status: true, msg: "My Course Deleted..." };
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+      throw new Error("something is wrong please try again");
     }
   }
 }

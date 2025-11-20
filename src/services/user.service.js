@@ -1,17 +1,13 @@
 import { PrismaClient } from "@prisma/client";
-import {
-  generateHashPassword,
-  comparePassword,
-} from "../utils/hashPassAction.js";
+import { generateHashPassword,comparePassword} from "../utils/hashPassAction.js";
 import { generateAccessToken } from "../utils/authTokenAction.js";
-import validation from "../validators/validation.js";
+
 const prisma = new PrismaClient();
 
 export default class UserService {
   static prisma = prisma;
   static async userRegister(data) {
-    const resp = validation(data, false);
-    if (resp.status == false) return resp;
+    
     try {
       var user = await UserService.prisma.users.findFirst({
         where: { email: data.email },
@@ -37,16 +33,19 @@ export default class UserService {
           email: user.email,
         });
         return { status: true, accessToken, role: 1, msg: "User Registered" };
-      } else {
-        return { status: false, msg: "User Already Registered..." };
+      } 
+      else {
+        const error= new Error( "User Already Registered..." );
+        error.status=401;
+        throw error;
       }
     } catch (err) {
-      return { status: false, msg: "Internal Server Error..." };
+      
+       throw err;
     }
   }
   static async userLogin(data) {
-    const resp = validation(data, true);
-    if (!resp.status) return resp;
+  
 
     try {
       const user = await UserService.prisma.users.findFirst({
@@ -54,13 +53,19 @@ export default class UserService {
       });
 
       if (!user) {
-        return { status: false, msg: "Incorrect User or Password" };
+        { const error= new Error( "Incorrect User or Password" ); 
+          error.status=401;
+          throw error;
+        }
       }
 
       const isPassMatch = await comparePassword(data.password, user.password);
 
       if (!isPassMatch) {
-        return { status: false, msg: "Incorrect User or Password" };
+        { const error= new Error( "Incorrect User or Password" ); 
+          error.status =401;
+          throw error;
+        }
       }
 
       const userWithRole = await UserService.prisma.users.findFirst({
@@ -77,7 +82,7 @@ export default class UserService {
       const roleName = userWithRole.user_roles[0].roles.name;
 
       const accessToken = generateAccessToken({
-        id: user.id,
+        id: Number(user.id),
         email: user.email,
       });
 
@@ -88,7 +93,7 @@ export default class UserService {
         msg: "User Logged In",
       };
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+       throw err;
     }
   }
 
@@ -96,7 +101,7 @@ export default class UserService {
     try {
       return await UserService.prisma.users.count();
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+     throw new Error("something is wrong please try again");
     }
   }
   static async getUser(user_id) {
@@ -122,7 +127,7 @@ export default class UserService {
       };
       return userData;
     } catch (err) {
-      return { status: false, msg: "Server Error" };
+       throw new Error("something is wrong please try again");
     }
   }
 }

@@ -2,13 +2,9 @@ import UserService from "../services/user.service.js";
 
 export default class UserController {
   static async userLogin(req, res) {
+   
     try {
       const result = await UserService.userLogin(req.body);
-
-      if (!result.status) {
-        return res.status(200).send(result);
-      }
-
       res.cookie("accessToken", result.accessToken, {
         maxAge: 4 * 60 * 60 * 1000,
       });
@@ -18,10 +14,11 @@ export default class UserController {
         role: result.role,
       });
     } catch (err) {
-      return res.status(500).send({
-        status: false,
-        msg: "Internal Server Error",
-      });
+        
+        const statusCode=err.status || 500;
+        const msg=err.message || "something is wrong please try again"
+        res.status(statusCode).send({status:false,msg:err.message});
+      
     }
   }
 
@@ -32,7 +29,7 @@ export default class UserController {
 
       if (!result.status) return res.status(200).send(result);
       res.cookie("accessToken", result.accessToken, {
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 4 * 60 * 60 * 1000,
       });
 
       return res.status(200).send({
@@ -41,30 +38,27 @@ export default class UserController {
         role: result.role,
       });
     } catch (err) {
-      return res.status(500).send({
-        status: false,
-        msg: "Internal Server Error",
-      });
+        const statusCode=err.status || 500;
+        const msg=err.message || "something is wrong please try again"
+        res.status(statusCode).send({status:false,msg:err.message})
     }
   }
   static async getUser(req, res) {
     try {
       res.status(200).json(await UserService.getUser(req.user.id));
     } catch (err) {
-      return res.status(500).send({
-        status: false,
-        msg: "Internal Server Error",
-      });
+        const statusCode=err.status || 500;
+        const msg=err.message || "something is wrong please try again"
+        res.status(statusCode).send({status:false,msg:err.message})
     }
   }
   static async getUsersCount(_, res) {
     try {
       res.status(200).send(await UserService.getUsersCount());
     } catch (err) {
-      return res.status(500).send({
-        status: false,
-        msg: "Internal Server Error",
-      });
+        const statusCode=err.status || 500;
+        const msg=err.message || "something is wrong please try again"
+        res.status(statusCode).send({status:false,msg:err.message})
     }
   }
   static async userLogout(req, res) {
@@ -72,10 +66,9 @@ export default class UserController {
       res.clearCookie("accessToken");
       res.status(200).json({ status: true, msg: "Logout" });
     } catch (err) {
-      return res.status(500).send({
-        status: false,
-        msg: "Internal Server Error",
-      });
+        const statusCode=err.status || 500;
+        const msg=err.message || "something is wrong please try again"
+        res.status(statusCode).send({status:false,msg:err.message})
     }
   }
 }
