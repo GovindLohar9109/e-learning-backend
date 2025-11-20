@@ -9,9 +9,9 @@ export default class UserController {
       if (!result.status) {
         return res.status(200).send(result);
       }
-
+     
       res.cookie("accessToken", result.accessToken, {
-        maxAge:process.env.ACCESS_TOKEN_TIME ,
+        maxAge:process.env.ACCESS_TOKEN_TIME,
       });
       return res.status(200).send({
         status: true,
@@ -19,6 +19,7 @@ export default class UserController {
         role: result.role,
       });
     } catch (err) {
+      console.log(err)
       return res.status(500).send({
         status: false,
         msg: "Internal Server Error",
@@ -33,7 +34,7 @@ export default class UserController {
 
       if (!result.status) return res.status(200).send(result);
       res.cookie("accessToken", result.accessToken, {
-        maxAge:process.env.ACCESS_TOKEN_TIME
+        maxAge: process.env.ACCESS_TOKEN_TIME
       });
 
       return res.status(200).send({
