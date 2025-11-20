@@ -1,5 +1,6 @@
 import UserService from "../services/user.service.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 export default class UserController {
   static async userLogin(req, res) {
     try {
@@ -10,7 +11,7 @@ export default class UserController {
       }
 
       res.cookie("accessToken", result.accessToken, {
-        maxAge: 4 * 60 * 60 * 1000,
+        maxAge:process.env.ACCESS_TOKEN_TIME ,
       });
       return res.status(200).send({
         status: true,
@@ -32,7 +33,7 @@ export default class UserController {
 
       if (!result.status) return res.status(200).send(result);
       res.cookie("accessToken", result.accessToken, {
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge:process.env.ACCESS_TOKEN_TIME
       });
 
       return res.status(200).send({
