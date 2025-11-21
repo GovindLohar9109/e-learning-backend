@@ -4,8 +4,8 @@ export async function generateHashPassword(password) {
   try {
     const salt = await bcrypt.genSalt(10);
     const hash_pass = await bcrypt.hash(password, salt);
-
     return hash_pass;
+    
   } catch (err) {
     return null;
   }

@@ -13,6 +13,6 @@ router.get(
   authorized,
   UserController.getUsersCount,
 );
-router.post("/logout", UserController.userLogout);
+
 
 export default router;

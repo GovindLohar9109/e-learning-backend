@@ -18,11 +18,6 @@ router.delete(
   "/mycourses/:course_id/:user_id",
   CourseController.removeMyCourse,
 );
-router.post(
-  "/courses",
-  authorized,
-  upload.single("thumbnailImage"),
-  CourseController.addCourse,
-);
+router.post("/courses",authorized,upload.single("thumbnailImage"),CourseController.addCourse);
 
 export default router;
