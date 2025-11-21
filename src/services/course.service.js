@@ -1,4 +1,5 @@
 import { PrismaClient } from "../prisma/generated/client.js";
+
 const prisma = new PrismaClient(); 
 export default class CourseService {
   static prisma = prisma;
@@ -6,7 +7,7 @@ export default class CourseService {
     course_id = Number(course_id);
     user_id = Number(user_id);
     try {
-      let result = await CourseService.prisma.users_courses.findFirst({
+      let result = await CourseService.prisma.usersCourse.findFirst({
         where: { user_id: Number(user_id), course_id: Number(course_id) },
       });
 
@@ -14,7 +15,7 @@ export default class CourseService {
         return { status: false, msg: "Course is already added..." };
       }
 
-      result = await CourseService.prisma.users_courses.create({
+      result = await CourseService.prisma.usersCourse.create({
         data: { course_id:Number(course_id), user_id:Number(user_id) },
       });
       return { status: true, msg: "Course Added to My Course" };
@@ -25,7 +26,7 @@ export default class CourseService {
 
   static async addCourse(course) {
     try {
-      await CourseService.prisma.courses.create({
+      await CourseService.prisma.course.create({
         data: course,
       });
       return { status: true, msg: "Added new course" };
@@ -35,7 +36,7 @@ export default class CourseService {
   }
   static async deleteCourse({ course_id }) {
     try {
-      await CourseService.prisma.courses.update({
+      await CourseService.prisma.course.update({
         where: { id: Number(course_id) },
         data: { deleted_at: new Date() },
       });
@@ -46,7 +47,7 @@ export default class CourseService {
   }
   static async editCourse(course_id, course) {
     try {
-      await CourseService.prisma.courses.update({
+      await CourseService.prisma.course.update({
         where: { id: Number(course_id) },
         data: {
           name: course.name,
@@ -62,7 +63,7 @@ export default class CourseService {
   static async getAllCourses({ search }) {
     search = search?.replace(/"/g, "").trim();
     try {
-      var result = await CourseService.prisma.courses.findMany({
+      var result = await CourseService.prisma.course.findMany({
         where: {
           deleted_at: null,
           name: {
@@ -79,7 +80,7 @@ export default class CourseService {
   }
   static async getCoursesCount() {
     try {
-      var courseCount = await CourseService.prisma.courses.count({
+      var courseCount = await CourseService.prisma.course.count({
         where: { deleted_at: null },
       });
       return courseCount;
@@ -90,7 +91,7 @@ export default class CourseService {
   static async getCoursesByLimit(limit, search) {
     search = search?.replace(/"/g, "").trim();
     try {
-      var result = await CourseService.prisma.courses.findMany({
+      var result = await CourseService.prisma.course.findMany({
         where: {
           deleted_at: null,
           name: {
@@ -107,7 +108,7 @@ export default class CourseService {
   }
   static async getCoursesDetailsById({ course_id }) {
     try {
-      var result = await CourseService.prisma.courses.findFirst({
+      var result = await CourseService.prisma.course.findFirst({
         where: { id: Number(course_id) },
       });
 
@@ -120,7 +121,7 @@ export default class CourseService {
   
     search = search?.replace(/"/g, "").trim();
     try {
-      const result = await CourseService.prisma.courses.findMany({
+      const result = await CourseService.prisma.course.findMany({
         where: {
           name: {
             contains: search,
@@ -144,7 +145,7 @@ export default class CourseService {
   }
   static async removeMyCourse({ user_id, course_id }) {
     try {
-      await CourseService.prisma.users_courses.deleteMany({
+      await CourseService.prisma.usersCourse.deleteMany({
         where: {
           user_id: Number(user_id),
           course_id: Number(course_id),

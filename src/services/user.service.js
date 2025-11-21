@@ -1,8 +1,7 @@
 import { PrismaClient } from "../prisma/generated/client.js";
-import {
-  generateHashPassword,
-  comparePassword,
-} from "../utils/hashPassAction.js";
+
+import { generateHashPassword, comparePassword} from "../utils/hashPassAction.js";
+
 import { generateAccessToken } from "../utils/authTokenAction.js";
 import validation from "../validators/validation.js";
 const prisma = new PrismaClient();
@@ -13,20 +12,20 @@ export default class UserService {
     const resp = validation(data, false);
     if (resp.status == false) return resp;
     try {
-      var user = await UserService.prisma.users.findFirst({
+      var user = await UserService.prisma.user.findFirst({
         where: { email: data.email },
       });
 
       if (!user) {
         var hash_pass = await generateHashPassword(data.password);
         data.password = hash_pass;
-        user = await UserService.prisma.users.create({
+        user = await UserService.prisma.user.create({
           data: { ...data },
         });
-        var role = await UserService.prisma.roles.findFirst({
+        var role = await UserService.prisma.role.findFirst({
           where: { name: "User" },
         });
-        await UserService.prisma.user_roles.create({
+        await UserService.prisma.userRole.create({
           data: {
             user_id: user.id,
             role_id: role.id,
@@ -49,7 +48,7 @@ export default class UserService {
     if (!resp.status) return resp;
 
     try {
-      const user = await UserService.prisma.users.findFirst({
+      const user = await UserService.prisma.user.findFirst({
         where: { email: data.email },
       });
 
@@ -63,7 +62,7 @@ export default class UserService {
         return { status: false, msg: "Incorrect User or Password" };
       }
 
-      const userWithRole = await UserService.prisma.users.findFirst({
+      const userWithRole = await UserService.prisma.user.findFirst({
         where: { id: user.id },
         include: {
           user_roles: {
@@ -88,23 +87,24 @@ export default class UserService {
         msg: "User Logged In",
       };
     } catch (err) {
+      console.log(err)
       return { status: false, msg: "Server Error" };
     }
   }
 
   static async getUsersCount() {
     try {
-      return await UserService.prisma.users.count();
+      return await UserService.prisma.user.count();
     } catch (err) {
       return { status: false, msg: "Server Error" };
     }
   }
   static async getUser(user_id) {
     try {
-      const user = await UserService.prisma.users.findFirst({
+      const user = await UserService.prisma.user.findFirst({
         where: { id: Number(user_id) },
       });
-      const roles = await UserService.prisma.user_roles.findFirst({
+      const roles = await UserService.prisma.userRole.findFirst({
         where: { user_id: Number(user_id) },
         select: {
           roles: {
