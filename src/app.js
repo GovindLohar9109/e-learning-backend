@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: "https://e-learning-frontend-chi.vercel.app",
+    origin: process.env.HOST_URL,
     credentials: true,
   }),
 );
