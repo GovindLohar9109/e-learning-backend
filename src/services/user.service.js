@@ -67,13 +67,13 @@ export default class UserService {
         include: {
           user_roles: {
             include: {
-              roles: { select: { name: true } },
+              role: { select: { name: true } },
             },
           },
         },
       });
 
-      const roleName = userWithRole.user_roles[0].roles.name;
+      const roleName = userWithRole.user_roles[0].role.name;
 
       const accessToken = generateAccessToken({
         id: user.id,
@@ -107,7 +107,7 @@ export default class UserService {
       const roles = await UserService.prisma.userRole.findFirst({
         where: { user_id: Number(user_id) },
         select: {
-          roles: {
+          role: {
             select: {
               name: true,
             },
@@ -118,7 +118,7 @@ export default class UserService {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: roles?.roles?.name,
+        role: roles?.role?.name,
       };
       return userData;
     } catch (err) {
