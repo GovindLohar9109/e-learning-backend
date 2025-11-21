@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin:'http://localhost:3000',
+    origin: process.env.HOST_URL,
     credentials: true,
   }),
 );
