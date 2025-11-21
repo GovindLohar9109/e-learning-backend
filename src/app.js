@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import router from "./routes/index.js";
 import cookieParser from "cookie-parser";
+import path from "path"
 import dotenv from "dotenv";
 import { PrismaClient } from "./prisma/generated/client.js";
 const prisma=new PrismaClient();
@@ -10,9 +11,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+
 app.use(
   cors({
-    origin: process.env.HOST_URL,
+    origin:'http://localhost:3000',
     credentials: true,
   }),
 );
@@ -20,9 +22,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.get("/",async (req,res)=>{
-   const result=await prisma.userRole.findMany();
+   const result=await prisma.course.findMany();
    res.send(result)
 })
 

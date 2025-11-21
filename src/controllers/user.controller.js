@@ -9,17 +9,10 @@ export default class UserController {
       if (!result.status) {
         return res.status(200).send(result);
       }
-     
-      res.cookie("accessToken", result.accessToken, {
-        maxAge:process.env.ACCESS_TOKEN_TIME,
-      });
-      return res.status(200).send({
-        status: true,
-        msg: result.msg,
-        role: result.role,
-      });
+
+      return res.status(200).send(result);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).send({
         status: false,
         msg: "Internal Server Error",
@@ -29,13 +22,10 @@ export default class UserController {
 
   static async userRegister(req, res) {
     try {
-      var data = req.body;
-      var result = await UserService.userRegister(data);
+      let data = req.body;
+      let result = await UserService.userRegister(data);
 
       if (!result.status) return res.status(200).send(result);
-      res.cookie("accessToken", result.accessToken, {
-        maxAge: process.env.ACCESS_TOKEN_TIME
-      });
 
       return res.status(200).send({
         status: true,
@@ -49,6 +39,7 @@ export default class UserController {
       });
     }
   }
+
   static async getUser(req, res) {
     try {
       res.status(200).json(await UserService.getUser(req.user.id));
@@ -59,6 +50,7 @@ export default class UserController {
       });
     }
   }
+
   static async getUsersCount(_, res) {
     try {
       res.status(200).send(await UserService.getUsersCount());

@@ -26,11 +26,13 @@ export default class CourseService {
 
   static async addCourse(course) {
     try {
+      course.duration=Number(course.duration)
       await CourseService.prisma.course.create({
         data: course,
       });
       return { status: true, msg: "Added new course" };
     } catch (err) {
+      console.log("here",err);
       return { status: false, msg: "Server Error" };
     }
   }

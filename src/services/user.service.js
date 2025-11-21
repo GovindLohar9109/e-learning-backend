@@ -12,17 +12,17 @@ export default class UserService {
     const resp = validation(data, false);
     if (resp.status == false) return resp;
     try {
-      var user = await UserService.prisma.user.findFirst({
+      let user = await UserService.prisma.user.findFirst({
         where: { email: data.email },
       });
 
       if (!user) {
-        var hash_pass = await generateHashPassword(data.password);
+        let  hash_pass = await generateHashPassword(data.password);
         data.password = hash_pass;
         user = await UserService.prisma.user.create({
           data: { ...data },
         });
-        var role = await UserService.prisma.role.findFirst({
+        let  role = await UserService.prisma.role.findFirst({
           where: { name: "User" },
         });
         await UserService.prisma.userRole.create({
@@ -31,11 +31,8 @@ export default class UserService {
             role_id: role.id,
           },
         });
-        const accessToken = generateAccessToken({
-          id: user.id,
-          email: user.email,
-        });
-        return { status: true, accessToken, role: 1, msg: "User Registered" };
+        
+        return { status: true, role: 1, msg: "User Registered" };
       } else {
         return { status: false, msg: "User Already Registered..." };
       }
@@ -43,6 +40,7 @@ export default class UserService {
       return { status: false, msg: " Server Error..." };
     }
   }
+  
   static async userLogin(data) {
     const resp = validation(data, true);
     if (!resp.status) return resp;
@@ -53,7 +51,7 @@ export default class UserService {
       });
 
       if (!user) {
-        return { status: false, msg: "Incorrect User or Password" };
+        return { status: false, msg: "User does not exist" };
       }
 
       const isPassMatch = await comparePassword(data.password, user.password);
@@ -83,8 +81,8 @@ export default class UserService {
       return {
         status: true,
         accessToken,
-        role: roleName === "Admin" ? 2 : 1,
-        msg: "User Logged In",
+        role: roleName ,
+        msg: "User Logged In successfully",
       };
     } catch (err) {
       console.log(err)
@@ -99,6 +97,7 @@ export default class UserService {
       return { status: false, msg: "Server Error" };
     }
   }
+
   static async getUser(user_id) {
     try {
       const user = await UserService.prisma.user.findFirst({
@@ -114,7 +113,7 @@ export default class UserService {
           },
         },
       });
-      var userData = {
+      let userData = {
         id: user.id,
         name: user.name,
         email: user.email,

@@ -1,7 +1,10 @@
 import express from "express";
 import CourseController from "../controllers/course.controller.js";
 import authorized from "../middleware/authorized.middleware.js";
+import upload from "../middleware/upload.middleware.js";
+
 const router = express.Router();
+
 router.get("/courses/count", authorized, CourseController.getCoursesCount);
 router.get("/courses/limit/:limit", CourseController.getCoursesByLimit);
 router.get("/courses/:course_id", CourseController.getCoursesDetailsById);
@@ -15,5 +18,7 @@ router.delete(
   "/mycourses/:course_id/:user_id",
   CourseController.removeMyCourse,
 );
-router.post("/courses", authorized, CourseController.addCourse);
+router.post("/courses", authorized,upload.single("thumbnailImage"), CourseController.addCourse);
+
 export default router;
+
