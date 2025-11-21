@@ -7,14 +7,14 @@ export async function generateHashPassword(password) {
 
     return hash_pass;
   } catch (err) {
-    return null; // better than returning undefined
+    return null;
   }
 }
 
 export async function comparePassword(password, hashPassword) {
   try {
     const isPassMatch = await bcrypt.compare(password, hashPassword);
-    return isPassMatch; // returns true or false
+    return isPassMatch;
   } catch (err) {
     return false;
   }

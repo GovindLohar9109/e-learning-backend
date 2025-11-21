@@ -1,10 +1,9 @@
 import CourseService from "../services/course.service.js";
 export default class CourseController {
   static async addCourse(req, res) {
-
     try {
       const thumbnailImage = req.file ? req.file.filename : null;
-       req.body.image_url = thumbnailImage;
+      req.body.image_url = thumbnailImage;
       let result = await CourseService.addCourse(req.body);
       return res.send(result);
     } catch (err) {

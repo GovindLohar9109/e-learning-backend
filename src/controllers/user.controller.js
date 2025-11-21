@@ -12,7 +12,6 @@ export default class UserController {
 
       return res.status(200).send(result);
     } catch (err) {
-      console.log(err);
       return res.status(500).send({
         status: false,
         msg: "Internal Server Error",
@@ -54,17 +53,6 @@ export default class UserController {
   static async getUsersCount(_, res) {
     try {
       res.status(200).send(await UserService.getUsersCount());
-    } catch (err) {
-      return res.status(500).send({
-        status: false,
-        msg: "Internal Server Error",
-      });
-    }
-  }
-  static async userLogout(req, res) {
-    try {
-      res.clearCookie("accessToken");
-      res.status(200).json({ status: true, msg: "Logout" });
     } catch (err) {
       return res.status(500).send({
         status: false,
