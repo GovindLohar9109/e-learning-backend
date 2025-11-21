@@ -21,7 +21,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// routes 
+
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.get("/",async (req,res)=>{
