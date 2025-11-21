@@ -10,7 +10,7 @@ beforeAll(() => {
 
 describe("ADD TO MY COURSE", () => {
   test("returns error if course already added", async () => {
-    prismaMock.users_courses.findFirst.mockResolvedValue({ id: 1 });
+    prismaMock.usersCourse.findFirst.mockResolvedValue({ id: 1 });
 
     const result = await CourseService.addToMyCourse({
       user_id: 1,
@@ -22,9 +22,9 @@ describe("ADD TO MY COURSE", () => {
   });
 
   test("adds course successfully", async () => {
-    prismaMock.users_courses.findFirst.mockResolvedValue(null);
+    prismaMock.usersCourse.findFirst.mockResolvedValue(null);
 
-    prismaMock.users_courses.create.mockResolvedValue({
+    prismaMock.usersCourse.create.mockResolvedValue({
       id: 1,
       user_id: 1,
       course_id: 1,
@@ -43,7 +43,7 @@ describe("ADD TO MY COURSE", () => {
 
 describe("ADD COURSE", () => {
   test("adds course successfully", async () => {
-    prismaMock.courses.create.mockResolvedValue({ id: 1 });
+    prismaMock.course.create.mockResolvedValue({ id: 1 });
 
     const result = await CourseService.addCourse({
       name: "Node.js",
@@ -55,7 +55,7 @@ describe("ADD COURSE", () => {
   });
 
   test("handles server error", async () => {
-    prismaMock.courses.create.mockRejectedValue(new Error("DB error"));
+    prismaMock.course.create.mockRejectedValue(new Error("DB error"));
 
     const result = await CourseService.addCourse({});
 
@@ -66,7 +66,7 @@ describe("ADD COURSE", () => {
 
 describe("DELETE COURSE", () => {
   test("deletes course successfully", async () => {
-    prismaMock.courses.update.mockResolvedValue({});
+    prismaMock.course.update.mockResolvedValue({});
 
     const result = await CourseService.deleteCourse({ course_id: 1 });
 
@@ -75,7 +75,7 @@ describe("DELETE COURSE", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.update.mockRejectedValue("err");
+    prismaMock.course.update.mockRejectedValue("err");
 
     const result = await CourseService.deleteCourse({ course_id: 1 });
 
@@ -87,7 +87,7 @@ describe("DELETE COURSE", () => {
 
 describe("EDIT COURSE", () => {
   test("updates course successfully", async () => {
-    prismaMock.courses.update.mockResolvedValue({});
+    prismaMock.course.update.mockResolvedValue({});
 
     const result = await CourseService.editCourse(1, {
       name: "Learn Java",
@@ -99,7 +99,7 @@ describe("EDIT COURSE", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.update.mockRejectedValue("DB err");
+    prismaMock.course.update.mockRejectedValue("DB err");
 
     const result = await CourseService.editCourse(1, {});
 
@@ -111,7 +111,7 @@ describe("EDIT COURSE", () => {
 
 describe("GET ALL COURSES", () => {
   test("returns list of courses", async () => {
-    prismaMock.courses.findMany.mockResolvedValue([
+    prismaMock.course.findMany.mockResolvedValue([
       { id: 1, name: "Node.js" },
     ]);
 
@@ -122,7 +122,7 @@ describe("GET ALL COURSES", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.findMany.mockRejectedValue("err");
+    prismaMock.course.findMany.mockRejectedValue("err");
 
     const result = await CourseService.getAllCourses({ search: "" });
 
@@ -134,7 +134,7 @@ describe("GET ALL COURSES", () => {
 
 describe("GET COURSES COUNT", () => {
   test("returns count", async () => {
-    prismaMock.courses.count.mockResolvedValue(5);
+    prismaMock.course.count.mockResolvedValue(5);
 
     const result = await CourseService.getCoursesCount();
 
@@ -142,7 +142,7 @@ describe("GET COURSES COUNT", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.count.mockRejectedValue("err");
+    prismaMock.course.count.mockRejectedValue("err");
 
     const result = await CourseService.getCoursesCount();
 
@@ -154,7 +154,7 @@ describe("GET COURSES COUNT", () => {
 
 describe("GET COURSES BY LIMIT", () => {
   test("returns limited courses", async () => {
-    prismaMock.courses.findMany.mockResolvedValue([
+    prismaMock.course.findMany.mockResolvedValue([
       { id: 1, name: "JavaScript" },
     ]);
 
@@ -164,7 +164,7 @@ describe("GET COURSES BY LIMIT", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.findMany.mockRejectedValue("err");
+    prismaMock.course.findMany.mockRejectedValue("err");
 
     const result = await CourseService.getCoursesByLimit(1, "");
 
@@ -176,7 +176,7 @@ describe("GET COURSES BY LIMIT", () => {
 
 describe("GET COURSE DETAILS BY ID", () => {
   test("returns course", async () => {
-    prismaMock.courses.findFirst.mockResolvedValue({ id: 1 });
+    prismaMock.course.findFirst.mockResolvedValue({ id: 1 });
 
     const result = await CourseService.getCoursesDetailsById({
       course_id: 1,
@@ -186,7 +186,7 @@ describe("GET COURSE DETAILS BY ID", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.findFirst.mockRejectedValue("err");
+    prismaMock.course.findFirst.mockRejectedValue("err");
 
     const result = await CourseService.getCoursesDetailsById({
       course_id: 1,
@@ -200,7 +200,7 @@ describe("GET COURSE DETAILS BY ID", () => {
 
 describe("GET MY ALL COURSES", () => {
   test("returns user courses", async () => {
-    prismaMock.courses.findMany.mockResolvedValue([
+    prismaMock.course.findMany.mockResolvedValue([
       { id: 1, name: "React" },
     ]);
 
@@ -210,7 +210,7 @@ describe("GET MY ALL COURSES", () => {
   });
 
   test("server error", async () => {
-    prismaMock.courses.findMany.mockRejectedValue("err");
+    prismaMock.course.findMany.mockRejectedValue("err");
 
     const result = await CourseService.getMyAllCourses(1, "");
 
@@ -222,7 +222,7 @@ describe("GET MY ALL COURSES", () => {
 
 describe("REMOVE MY COURSE", () => {
   test("deletes my course", async () => {
-    prismaMock.users_courses.deleteMany.mockResolvedValue({});
+    prismaMock.usersCourse.deleteMany.mockResolvedValue({});
 
     const result = await CourseService.removeMyCourse({
       user_id: 1,
@@ -234,7 +234,7 @@ describe("REMOVE MY COURSE", () => {
   });
 
   test("server error", async () => {
-    prismaMock.users_courses.deleteMany.mockRejectedValue("err");
+    prismaMock.usersCourse.deleteMany.mockRejectedValue("err");
 
     const result = await CourseService.removeMyCourse({
       user_id: 1,

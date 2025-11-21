@@ -49,7 +49,7 @@ describe("USER LOGIN SERVICE", () => {
   describe("NEGATIVE TEST CASE", () => {
     
     test("invalid credentials test", async () => {
-       prismaMock.users.findFirst(null);
+       prismaMock.user.findFirst(null);
 
       const result = await UserService.userLogin({
         email: "govind0123@gmail.com",
@@ -58,7 +58,7 @@ describe("USER LOGIN SERVICE", () => {
       expect(result).toEqual({ status: false, msg: "Incorrect User or Password" });
     });
     test("when server error", async () => {
-       prismaMock.users.findFirst.mockRejectedValue("Server Error");
+       prismaMock.user.findFirst.mockRejectedValue("Server Error");
 
       const result = await UserService.userLogin({
         email: "govind0123@gmail.com",
@@ -123,7 +123,7 @@ describe("USER REGISTER SERVICE", () => {
 
   describe("NEGATIVE TEST CASE", () => {
     test("when user already exists", async () => {
-      prismaMock.users.findFirst.mockResolvedValue({ id: 1 });
+      prismaMock.user.findFirst.mockResolvedValue({ id: 1 });
 
       const result = await UserService.userRegister({
         name: "Govind",
@@ -136,7 +136,7 @@ describe("USER REGISTER SERVICE", () => {
     });
 
      test("when server error ",async ()=>{
-      prismaMock.users.findFirst.mockRejectedValue("Server Error");
+      prismaMock.user.findFirst.mockRejectedValue("Server Error");
       const result = await UserService.userRegister({
         name: "Govind",
         email: "govind123@gmail.com",
@@ -148,13 +148,13 @@ describe("USER REGISTER SERVICE", () => {
   
 
   test("get users count",async ()=>{
-      prismaMock.users.count.mockReturnValue(20);
+      prismaMock.user.count.mockReturnValue(20);
       const result=await UserService.getUsersCount();
       expect(result).toBe(20);
   
     })
     test("when server error while getting count of users",async ()=>{
-      prismaMock.users.count.mockRejectedValue("Server Error");
+      prismaMock.user.count.mockRejectedValue("Server Error");
       const result=await UserService.getUsersCount();
       expect(result).toEqual({ status: false, msg: "Server Error" });
   
@@ -163,7 +163,7 @@ describe("USER REGISTER SERVICE", () => {
 
 
 test("when getting user data server error", async () => {
-      prismaMock.users.findFirst.mockRejectedValue("Server error");
+      prismaMock.user.findFirst.mockRejectedValue("Server error");
       const result = await UserService.getUser(1);
       expect(result).toEqual({ status: false, msg: "Server Error" });
 });
