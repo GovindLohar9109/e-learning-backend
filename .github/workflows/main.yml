@@ -10,11 +10,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            # 1. Checkout code
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            # 2. Connect to EC2 and deploy
             - name: Deploy to EC2
               uses: appleboy/ssh-action@v1.0.3
               with:

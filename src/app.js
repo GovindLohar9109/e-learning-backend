@@ -21,16 +21,17 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// routes
+// routes 
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.get("/",async (req,res)=>{
+  
    const result=await prisma.course.findMany();
    res.send(result)
 })
 
 app.use("/", router);
 app.listen(PORT, () =>
-  console.log(`Server is running on http://localhost:${PORT}`),
+  console.log(`Server is running on http://0.0.0.0:${PORT}`),
 );
 export default app;
