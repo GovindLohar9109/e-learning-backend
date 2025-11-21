@@ -17,8 +17,7 @@ jest.unstable_mockModule("../utils/hashPassAction.js",()=>({
    comparePassword:jest.fn()
 }))
 const validation=(await import("../validators/validation.js")).default; 
-const {comparePassword} = (await import("../utils/hashPassAction.js"));
-const {generateAccessToken}=(await import("../utils/authTokenAction.js"));
+
 
 describe("USER LOGIN SERVICE", () => {
   
@@ -70,31 +69,10 @@ describe("USER LOGIN SERVICE", () => {
   });
 
  
-  // describe("POSITIVE TEST CASE", () => {
-  //   test("valid credentials test", async () => {
-     
-  //     prismaMock.users.findFirst.mockResolvedValueOnce({
-  //       id: 1,
-  //       name: "Govind",
-  //       email: "govind123@gmail.com",
-  //       password: "$2b$10$HASHEDPASSWORD",
-  //     });
-
-  //     const result = await UserService.userLogin({
-  //       email: "govind123@gmail.com",
-  //       password: "Gl12345678",
-  //     });
-  //     comparePassword.mockReturnValue(true);
-  //     generateAccessToken.mockReturnValue("fakeToken");
-     
-
-  //     expect(result).toBe(true);
-  //     expect(result.accessToken).toBe("fakeToken");
-  //   });
-  // });
+  
  });
 
-//  ============REGISTER==============
+
 
 describe("USER REGISTER SERVICE", () => {
   
@@ -138,23 +116,7 @@ describe("USER REGISTER SERVICE", () => {
       });
 
 
-      // -------THIS IS FALING----------
-
-      // test("invalid password", async () => {
-      //   validation.mockReturnValue({
-      //     status: false,
-      //     msg: "Please Enter Valid Password"
-      //   });
-
-      //   const result = await UserService.userRegister({
-      //     name: "Govind",
-      //     email: "govind123@gmail.com",
-      //     password: "1234567",
-      //   });
-
-      //   expect(result.status).toBe(false);
-      //   expect(result.msg).toBe("Please Enter Valid Password");
-      // });
+     
     });
   });
 
@@ -199,16 +161,7 @@ describe("USER REGISTER SERVICE", () => {
     })
   });
 
-// // test("when getting user data", async () => {
-// //       prismaMock.users.findFirst.mockResolvedValue({ id: 1 ,name:"Govind",email:"govind123@gmail.com",password:"@@@#3232"});
-     
-// //       const result = await UserService.getUser(1);
-// //        prismaMock.user_roles.findFirst({
-// //         roles:{name:"User"}
-// //       })
-// //       expect(result).toEqual({ id: 1 ,name:"Govind",email:"govind123@gmail.com",role:"User"});
 
-// });
 test("when getting user data server error", async () => {
       prismaMock.users.findFirst.mockRejectedValue("Server error");
       const result = await UserService.getUser(1);

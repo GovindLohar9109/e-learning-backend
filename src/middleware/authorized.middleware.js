@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../prisma/generated/client.js";
 const prisma = new PrismaClient();
 export default async function authorized(req, res, next) {
   if (!req.user)
