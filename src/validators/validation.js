@@ -1,11 +1,4 @@
 import { isValidEmail, isValidPassword, isValidText } from "./regular-exp.js";
-export var passwordMsg = `<div><p><strong>Password must contain:</strong></p>
-    <ul>
-        <li>At least one uppercase letter (A–Z)</li>
-        <li>At least one lowercase letter (a–z)</li>
-        <li>At least one number (0–9)</li>
-        <li>Minimum 8 characters in length</li>
-</ul></div>`;
 
 export default function validation(user, isLogin) {
   for (var key in user) {

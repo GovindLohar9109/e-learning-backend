@@ -91,7 +91,7 @@ export default class CourseService {
       return { status: false, msg: "Server Error" };
     }
   }
-  static async getCoursesByLimit(limit, search) {
+  static async getCoursesByLimit({limit, search}) {
     search = search?.replace(/"/g, "").trim();
     try {
       var result = await CourseService.prisma.course.findMany({

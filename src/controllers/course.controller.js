@@ -5,6 +5,7 @@ export default class CourseController {
       const thumbnailImage = req.file ? req.file.filename : null;
       req.body.image_url = thumbnailImage;
       let result = await CourseService.addCourse(req.body);
+      console
       return res.send(result);
     } catch (err) {
       return res.status(500).send({
@@ -16,7 +17,7 @@ export default class CourseController {
 
   static async addToMyCourse(req, res) {
     try {
-      let result = await CourseService.addToMyCourse(req.params);
+      let result = await CourseService.addToMyCourse(req.params.course_id,req.user.id);
       return res.send(result);
     } catch (err) {
       return res.status(500).send({
@@ -74,11 +75,9 @@ export default class CourseController {
     }
   }
   static async getCoursesByLimit(req, res) {
+  
     try {
-      let result = await CourseService.getCoursesByLimit(
-        req.params.limit,
-        req.query.search,
-      );
+      let result = await CourseService.getCoursesByLimit(req.query);
       res.status(200).json(result);
     } catch (err) {
       return res.status(500).send({
@@ -89,10 +88,7 @@ export default class CourseController {
   }
   static async getMyAllCourses(req, res) {
     try {
-      let result = await CourseService.getMyAllCourses(
-        req.params.user_id,
-        req.query.search,
-      );
+      let result = await CourseService.getMyAllCourses(req.query.search,req.user.id);
       res.status(200).json(result);
     } catch (err) {
       return res.status(500).send({
@@ -103,7 +99,7 @@ export default class CourseController {
   }
   static async removeMyCourse(req, res) {
     try {
-      let result = await CourseService.removeMyCourse(req.params);
+      let result = await CourseService.removeMyCourse(req.params.course_id,req.user.id);
       res.status(200).json(result);
     } catch (err) {
       return res.status(500).send({

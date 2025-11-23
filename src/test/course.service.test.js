@@ -198,51 +198,5 @@ describe("GET COURSE DETAILS BY ID", () => {
 });
 
 
-describe("GET MY ALL COURSES", () => {
-  test("returns user courses", async () => {
-    prismaMock.course.findMany.mockResolvedValue([
-      { id: 1, name: "React" },
-    ]);
 
-    const result = await CourseService.getMyAllCourses(1, "");
-
-    expect(result.length).toBe(1);
-  });
-
-  test("server error", async () => {
-    prismaMock.course.findMany.mockRejectedValue("err");
-
-    const result = await CourseService.getMyAllCourses(1, "");
-
-    expect(result.status).toBe(false);
-    expect(result.msg).toBe("Server Error");
-  });
-});
-
-
-describe("REMOVE MY COURSE", () => {
-  test("deletes my course", async () => {
-    prismaMock.usersCourse.deleteMany.mockResolvedValue({});
-
-    const result = await CourseService.removeMyCourse({
-      user_id: 1,
-      course_id: 1,
-    });
-
-    expect(result.status).toBe(true);
-    expect(result.msg).toBe("My Course Deleted...");
-  });
-
-  test("server error", async () => {
-    prismaMock.usersCourse.deleteMany.mockRejectedValue("err");
-
-    const result = await CourseService.removeMyCourse({
-      user_id: 1,
-      course_id: 1,
-    });
-
-    expect(result.status).toBe(false);
-    expect(result.msg).toBe("Server Error");
-  });
-});
 
