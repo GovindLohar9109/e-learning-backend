@@ -10,9 +10,11 @@ router.get("/courses/limit", CourseController.getCoursesByLimit);
 router.get("/courses/:course_id", CourseController.getCoursesDetailsById);
 router.put("/courses/:course_id", authorized, CourseController.editCourse);
 router.delete("/courses/:course_id", authorized, CourseController.deleteCourse);
+
 router.get("/courses", CourseController.getAllCourses);
 router.post("/courses/:course_id", CourseController.addToMyCourse);
-router.get("/courses", CourseController.getMyAllCourses);
+
+router.get("/users/courses", CourseController.getMyAllCourses);
 router.delete("/courses/:course_id",CourseController.removeMyCourse);
 router.post("/courses",authorized,upload.single("thumbnailImage"),CourseController.addCourse);
 

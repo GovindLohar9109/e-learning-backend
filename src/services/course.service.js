@@ -3,9 +3,10 @@ import { PrismaClient } from "../prisma/generated/client.js";
 const prisma = new PrismaClient(); 
 export default class CourseService {
   static prisma = prisma;
-  static async addToMyCourse({ course_id, user_id }) {
+  static async addToMyCourse(course_id, user_id ) {
     course_id = Number(course_id);
     user_id = Number(user_id);
+    
     try {
       let result = await CourseService.prisma.usersCourse.findFirst({
         where: { user_id: Number(user_id), course_id: Number(course_id) },
@@ -20,6 +21,7 @@ export default class CourseService {
       });
       return { status: true, msg: "Course Added to My Course" };
     } catch (err) {
+  
       return { status: false, msg: "Server Error" };
     }
   }
@@ -120,7 +122,7 @@ export default class CourseService {
       return { status: false, msg: "Server Error" };
     }
   }
-  static async getMyAllCourses(user_id, search) {
+  static async getMyAllCourses(search, user_id) {
   
     search = search?.replace(/"/g, "").trim();
     try {

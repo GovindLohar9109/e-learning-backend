@@ -16,10 +16,12 @@ export default class CourseController {
   }
 
   static async addToMyCourse(req, res) {
+  
     try {
       let result = await CourseService.addToMyCourse(req.params.course_id,req.user.id);
-      return res.send(result);
+       res.send(result);
     } catch (err) {
+      
       return res.status(500).send({
         status: false,
         msg: "Internal Server Error",
@@ -87,10 +89,13 @@ export default class CourseController {
     }
   }
   static async getMyAllCourses(req, res) {
+    
     try {
       let result = await CourseService.getMyAllCourses(req.query.search,req.user.id);
       res.status(200).json(result);
+   
     } catch (err) {
+   
       return res.status(500).send({
         status: false,
         msg: "Internal Server Error",
