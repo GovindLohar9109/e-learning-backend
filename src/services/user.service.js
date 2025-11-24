@@ -51,8 +51,8 @@ export default class UserService {
 
       if (!user) {
         {
-          const error = new Error('Incorrect User or Password');
-          error.status = 404;
+          const error = new Error('Incorrect email or password');
+          error.status = 400;
           throw error;
         }
       }
@@ -61,8 +61,8 @@ export default class UserService {
 
       if (!isPassMatch) {
         {
-          const error = new Error('Incorrect User or Password');
-          error.status = 401;
+          const error = new Error('Incorrect email or password');
+          error.status = 400;
           throw error;
         }
       }

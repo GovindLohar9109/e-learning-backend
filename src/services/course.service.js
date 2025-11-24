@@ -56,7 +56,7 @@ export default class CourseService {
           updated_at: new Date(),
         },
       });
-      return { status: true, msg: 'Course Update...' };
+      return { status: true, msg: 'Course Updated...' };
     } catch (err) {
       throw err;
     }

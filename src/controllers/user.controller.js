@@ -14,7 +14,7 @@ export default class UserController {
       });
     } catch (err) {
       const statusCode = err.status || 500;
-      const msg = err.message || 'something is wrong please try again';
+      const msg = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: err.message });
     }
   }
@@ -30,7 +30,7 @@ export default class UserController {
       });
     } catch (err) {
       const statusCode = err.status || 500;
-      const msg = err.message || 'something is wrong please try again';
+      const msg = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: err.message });
     }
   }
@@ -39,7 +39,7 @@ export default class UserController {
       res.status(200).json(await UserService.getUser(req.user.id));
     } catch (err) {
       const statusCode = err.status || 500;
-      const msg = err.message || 'something is wrong please try again';
+      const msg = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: err.message });
     }
   }
@@ -48,7 +48,7 @@ export default class UserController {
       res.status(200).send(await UserService.getUsersCount());
     } catch (err) {
       const statusCode = err.status || 500;
-      const msg = err.message || 'something is wrong please try again';
+      const msg = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: err.message });
     }
   }
@@ -58,7 +58,7 @@ export default class UserController {
       res.status(200).json({ status: true, msg: 'Logout' });
     } catch (err) {
       const statusCode = err.status || 500;
-      const msg = err.message || 'something is wrong please try again';
+      const msg = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: err.message });
     }
   }

@@ -6,7 +6,7 @@ export default class CourseController {
       return res.status(201).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -17,7 +17,7 @@ export default class CourseController {
       return res.status(201).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -27,7 +27,7 @@ export default class CourseController {
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -40,7 +40,7 @@ export default class CourseController {
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -50,7 +50,7 @@ export default class CourseController {
      res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -60,7 +60,7 @@ export default class CourseController {
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -73,7 +73,7 @@ export default class CourseController {
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -86,7 +86,7 @@ export default class CourseController {
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -96,7 +96,7 @@ export default class CourseController {
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
@@ -105,7 +105,7 @@ export default class CourseController {
       return res.status(200).send(await CourseService.getCoursesCount());
     } catch (err) {
       const statusCode = err.status || 500;
-      const message = err.message || 'something is wrong please try again';
+      const message = err.message || 'Something is wrong please try again';
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
