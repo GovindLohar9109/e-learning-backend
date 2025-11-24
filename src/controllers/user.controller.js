@@ -1,5 +1,4 @@
 import UserService from '../services/user.service.js';
-import dotenv from 'dotenv';
 export default class UserController {
   static async userLogin(req, res) {
     try {

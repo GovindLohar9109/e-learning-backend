@@ -1,7 +1,7 @@
 # Node modules
 node_modules/
 
-/generated/prisma
+src/prisma/
 
 # Lock files (optional)
 package-lock.json
