@@ -38,7 +38,7 @@ coverage/
 .DS_Store
 Thumbs.db
 
-/generated/prisma
+src/generated/prisma
 # Editor directories and files
 .vscode/
 .idea/
