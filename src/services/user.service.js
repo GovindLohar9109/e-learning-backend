@@ -33,7 +33,7 @@ export default class UserService {
           id: user.id,
           email: user.email,
         });
-        return { status: true, accessToken, role: 1, msg: 'User Registered' };
+        return { status: true, accessToken, role: "User", msg: 'User Registered' };
       } else {
         const error = new Error('User Already Registered...');
         error.status = 409;
@@ -88,7 +88,7 @@ export default class UserService {
       return {
         status: true,
         accessToken,
-        role: roleName === 'Admin' ? 2 : 1,
+        role: roleName,
         msg: 'User Logged In',
       };
     } catch (err) {
