@@ -51,14 +51,5 @@ export default class UserController {
       res.status(statusCode).send({ status: false, msg: err.message });
     }
   }
-  static async userLogout(req, res) {
-    try {
-      res.clearCookie('accessToken');
-      res.status(200).json({ status: true, msg: 'Logout' });
-    } catch (err) {
-      const statusCode = err.status || 500;
-      const msg = err.message || 'Something is wrong please try again';
-      res.status(statusCode).send({ status: false, msg: err.message });
-    }
-  }
+  
 }

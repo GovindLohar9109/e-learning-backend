@@ -2,7 +2,7 @@ import { PrismaClient } from "../prisma/generated/client.js";
 const prisma = new PrismaClient();
 export default class CourseService {
   static prisma = prisma;
-  static async addToMyCourse({ course_id, user_id }) {
+  static async addToMyCourse(course_id, user_id ) {
     course_id = Number(course_id);
     user_id = Number(user_id);
     try {
@@ -89,7 +89,7 @@ export default class CourseService {
       throw err;
     }
   }
-  static async getCoursesByLimit(limit, search) {
+  static async getCoursesByLimit({limit, search}) {
     search = search?.replace(/"/g, '').trim();
     try {
       var result = await CourseService.prisma.course.findMany({
@@ -118,7 +118,7 @@ export default class CourseService {
       throw err;
     }
   }
-  static async getMyAllCourses(user_id, search) {
+  static async getMyAllCourses(search, user_id) {
     search = search?.replace(/"/g, '').trim();
     try {
       const result = await CourseService.prisma.course.findMany({

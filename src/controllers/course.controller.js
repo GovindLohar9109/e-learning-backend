@@ -13,7 +13,7 @@ export default class CourseController {
 
   static async addToMyCourse(req, res) {
     try {
-      var result = await CourseService.addToMyCourse(req.params);
+      var result = await CourseService.addToMyCourse(req.params.course_id,req.user.id);
       return res.status(201).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
@@ -66,10 +66,7 @@ export default class CourseController {
   }
   static async getCoursesByLimit(req, res) {
     try {
-      var result = await CourseService.getCoursesByLimit(
-        req.params.limit,
-        req.query.search
-      );
+      var result = await CourseService.getCoursesByLimit(req.query);
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
@@ -79,10 +76,7 @@ export default class CourseController {
   }
   static async getMyAllCourses(req, res) {
     try {
-      var result = await CourseService.getMyAllCourses(
-        req.params.user_id,
-        req.query.search
-      );
+      var result = await CourseService.getMyAllCourses(req.query.search,req.user.id);
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
@@ -92,7 +86,7 @@ export default class CourseController {
   }
   static async removeMyCourse(req, res) {
     try {
-      var result = await CourseService.removeMyCourse(req.params);
+      var result = await CourseService.removeMyCourse(req.params.course_id,req.user.id);
       res.status(200).send(result);
     } catch (err) {
       const statusCode = err.status || 500;
