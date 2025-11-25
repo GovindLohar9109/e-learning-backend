@@ -44,16 +44,7 @@ export default class CourseController {
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
-  static async getAllCourses(req, res) {
-    try {
-      var result = await CourseService.getAllCourses(req.query);
-     res.status(200).send(result);
-    } catch (err) {
-      const statusCode = err.status || 500;
-      const message = err.message || 'Something is wrong please try again';
-      res.status(statusCode).send({ status: false, msg: message });
-    }
-  }
+  
   static async getCoursesDetailsById(req, res) {
     try {
       var result = await CourseService.getCoursesDetailsById(req.params);
@@ -64,7 +55,7 @@ export default class CourseController {
       res.status(statusCode).send({ status: false, msg: message });
     }
   }
-  static async getCoursesByLimit(req, res) {
+  static async getAllCourses(req, res) {
     try {
       var result = await CourseService.getCoursesByLimit(req.query);
       res.status(200).send(result);

@@ -61,24 +61,7 @@ export default class CourseService {
       throw err;
     }
   }
-  static async getAllCourses({ search }) {
-    search = search?.replace(/"/g, '').trim();
-    try {
-      var result = await CourseService.prisma.course.findMany({
-        where: {
-          deleted_at: null,
-          name: {
-            contains: search,
-            mode: 'insensitive',
-          },
-        },
-      });
-
-      return result;
-    } catch (err) {
-      throw err;
-    }
-  }
+  
   static async getCoursesCount() {
     try {
       var courseCount = await CourseService.prisma.course.count({
@@ -89,7 +72,7 @@ export default class CourseService {
       throw err;
     }
   }
-  static async getCoursesByLimit({limit, search}) {
+  static async getAllCourses({limit,search}) {
     search = search?.replace(/"/g, '').trim();
     try {
       var result = await CourseService.prisma.course.findMany({

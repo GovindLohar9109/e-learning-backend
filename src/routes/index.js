@@ -1,11 +1,13 @@
 import express from 'express';
 import userRoute from './user.route.js';
 import courseRoute from './course.route.js';
-import authMiddleware from '../middleware/auth.middleware.js';
+import adminRoute from "./admin.route.js";
+
 
 const router = express.Router();
 
-router.use('/',authMiddleware, userRoute);
-router.use('/',authMiddleware, courseRoute);
+router.use('/user', userRoute);
+router.use('/course', courseRoute);
+router.use('/admin', adminRoute);
 
 export default router;

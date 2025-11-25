@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import xss from 'xss-clean';
 import router from './routes/index.js';
+import authMiddleware from './middleware/auth.middleware.js';
 const PORT = process.env.PORT || 8000;
 const app = express();
 app.use(helmet());
@@ -17,7 +18,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 app.use(express.json());
-app.use('/', router);
+app.use('/',authMiddleware,router);
 
 
 app.listen(PORT,()=>console.log("Server is running"));
