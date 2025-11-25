@@ -1,149 +1,143 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../prisma/generated/client.js";
 const prisma = new PrismaClient();
 export default class CourseService {
-   
-    static async addToMyCourse({ course_id, user_id }) {
-        course_id = Number(course_id);
-        user_id = Number(user_id)
-        try {
-            await prisma.users_courses.create({
-                data: { course_id, user_id },
-            })
-            return ({ status: true, msg: "Course Added to MyCourses ..." });
-        }
-        catch (err) {
-            return ({ status: false, msg: "Courses is not Added..." });
-        }
+  static prisma = prisma;
+  static async addToMyCourse(course_id, user_id ) {
+    course_id = Number(course_id);
+    user_id = Number(user_id);
+    try {
+      let result = await CourseService.prisma.usersCourse.findFirst({
+        where: { user_id: Number(user_id), course_id: Number(course_id) },
+      });
+
+      if (result) {
+        const error = new Error('Course is already added...');
+        error.status = 409;
+        throw error;
+      }
+
+      result = await CourseService.prisma.usersCourse.create({
+        data: { course_id, user_id },
+      });
+      return { status: true, msg: 'Course Added to My Course' };
+    } catch (err) {
+      throw err;
     }
-    static async deleteCourse({ course_id }) {
-        try {
-            await prisma.courses.update({
-                where: { id: Number(course_id) },
-                data: { deleted_at: new Date() }
-            })
-            return ({ status: true, msg: "Course Deleted..." });
-        }
-        catch (err) {
-            console.log(err)
-            return ({ status: false, msg: "Course Not Deleted..." });
-        }
+  }
+
+  static async addCourse(course) {
+    try {
+      await CourseService.prisma.course.create({
+        data: course,
+      });
+      return { status: true, msg: 'Added new course' };
+    } catch (err) {
+      throw err;
     }
-    static async editCourse(course_id, course) {
-        try {
-            await prisma.courses.update({
-                where: { id: Number(course_id) },
-                data: {
-                    ...course,
-                    updated_at: new Date()
-                }
-            })
-            return ({ status: true, msg: "Course Update..." });
-        }
-        catch (err) {
-            return ({ status: false, msg: "Course Not Updated..." });
-        }
+  }
+  static async deleteCourse({ course_id }) {
+    try {
+      await CourseService.prisma.course.update({
+        where: { id: Number(course_id) },
+        data: { deleted_at: new Date() },
+      });
+      return { status: true, msg: 'Course Deleted...' };
+    } catch (err) {
+      throw err;
     }
-    static async getAllCourses({ search }) {
-        search = search?.replace(/"/g, "").trim();
-        try {
-            var result = await prisma.courses.findMany({
-                where: {
-                    deleted_at: null,
-                    name: {
-                        contains: search,
-                        mode: "insensitive"
-                    }
-                }
-            })
-            return (result);
-        }
-        catch (err) {
-            return [];
-        }
+  }
+  static async editCourse(course_id, course) {
+    try {
+      await CourseService.prisma.course.update({
+        where: { id: Number(course_id) },
+        data: {
+          name: course.name,
+          duration: Number(course.duration),
+          updated_at: new Date(),
+        },
+      });
+      return { status: true, msg: 'Course Updated...' };
+    } catch (err) {
+      throw err;
     }
-    static async getCourseCount() {
-        try {
-            var courseCount = await prisma.courses.count({
-                where: { deleted_at: null }
-            });
-            return (courseCount);
-        }
-        catch (err) {
-            return (0);
-        }
+  }
+  
+  static async getCoursesCount() {
+    try {
+      var courseCount = await CourseService.prisma.course.count({
+        where: { deleted_at: null },
+      });
+      return courseCount;
+    } catch (err) {
+      throw err;
     }
-    static async getCoursesByLimit(limit, search ) {
-        search = search?.replace(/"/g, "").trim();
-        try {
-            var result = await prisma.courses.findMany({
-                where: {
-                    deleted_at: null,
-                    name: {
-                        contains: search,    
-                        mode: "insensitive"
-                    }
-                },
-                take: Number(limit)
-            });
-            return (result);
-        }
-        catch (err) {
-            return [];
-        }
+  }
+  static async getAllCourses({limit,search}) {
+    search = search?.replace(/"/g, '').trim();
+    try {
+      var result = await CourseService.prisma.course.findMany({
+        where: {
+          deleted_at: null,
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+        take: Number(limit),
+      });
+      return result;
+    } catch (err) {
+      throw err;
     }
-    static async getCoursesDetailsById({ course_id }) {
-        try {
-            var result = await prisma.courses.findFirst({
-                where: { id: Number(course_id) }
-            })
-            console.log(result)
-            return (result);
-        }
-        catch (err) {
-            console.log(err)
-            return {};
-        }
+  }
+  static async getCoursesDetailsById({ course_id }) {
+    try {
+      var result = await CourseService.prisma.course.findFirst({
+        where: { id: Number(course_id) },
+      });
+
+      return result;
+    } catch (err) {
+      throw err;
     }
-    static async getMyAllCourses(user_id,search) {
-        search = search?.replace(/"/g, "").trim();
-        try {
-            const result = await prisma.courses.findMany({
-                where: {
-                    name: {
-                        contains: search,    
-                        mode: "insensitive"
-                    },
-                    deleted_at: null,
-                    users_courses: {
-                        some: {
-                            user_id: Number(user_id),
-                            deleted_at: null
-                        }
-                    }
-                }
-            });
-            return (result);
-        }
-        catch (err) {
-            console.log(err)
-            return [];
-        }
+  }
+  static async getMyAllCourses(search, user_id) {
+    search = search?.replace(/"/g, '').trim();
+    try {
+      const result = await CourseService.prisma.course.findMany({
+        where: {
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+          deleted_at: null,
+          users_courses: {
+            some: {
+              user_id: Number(user_id),
+              deleted_at: null,
+            },
+          },
+        },
+      });
+
+      return result;
+    } catch (err) {
+      throw err;
     }
-    static async removeMyCourse({ user_id, course_id }) {
-        try {
-            await prisma.users_courses.delete({
-                where: {
-                    user_id_course_id: {
-                        user_id: Number(user_id),
-                        course_id: Number(course_id)
-                    }
-                }
-            });
-            return ({ status: true, msg: "MyCourse Deleted..." });
-        }
-        catch (err) {
-            console.log(err);
-            return ({ status: true, msg: "MyCourse Not Deleted..." });
-        }
+  }
+  static async removeMyCourse({ user_id, course_id }) {
+    try {
+      await CourseService.prisma.usersCourse.deleteMany({
+        where: {
+          user_id: Number(user_id),
+          course_id: Number(course_id),
+          deleted_at: null,
+        },
+      });
+
+      return { status: true, msg: 'My Course Deleted...' };
+    } catch (err) {
+      throw err;
     }
+  }
 }
