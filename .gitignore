@@ -1,7 +1,7 @@
 # Node modules
 node_modules/
 
-/generated/prisma
+src/prisma/generated/
 
 # Lock files (optional)
 package-lock.json
@@ -38,7 +38,7 @@ coverage/
 .DS_Store
 Thumbs.db
 
-/generated/prisma
+src/generated/
 # Editor directories and files
 .vscode/
 .idea/
