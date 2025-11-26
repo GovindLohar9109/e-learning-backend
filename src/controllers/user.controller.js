@@ -13,8 +13,8 @@ export default class UserController {
       });
     } catch (err) {
       const statusCode = err.status || 500;
-      const msg = err.message || 'Something is wrong please try again';
-      res.status(statusCode).send({ status: false, msg: err.message });
+      const message = err.message || 'Something is wrong please try again';
+      res.status(statusCode).send({ status: false, msg:message });
     }
   }
 
