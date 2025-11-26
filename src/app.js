@@ -1,16 +1,26 @@
-import express from "express";
-import cors from "cors"
-import router from "./routes/index.js";
-import cookieParser from "cookie-parser";
-const app = express();
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import xss from 'xss-clean';
+import router from './routes/index.js';
+import authMiddleware from './middleware/auth.middleware.js';
+import cookieParser from 'cookie-parser';
 const PORT = process.env.PORT || 8000;
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}));
+const app = express();
+app.use(helmet());
+app.use(xss());
+app.use(cors()
+);
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  message: 'Too many requests, try again later.',
+});
+app.use(limiter);
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser()); // to allow cookies in req
+app.use('/',authMiddleware,router);
 
-// routes
-app.use("/", router);
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+
+app.listen(PORT,()=>console.log("Server is running"));
